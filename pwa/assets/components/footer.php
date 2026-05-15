@@ -3,16 +3,19 @@
         <span class="material-icons">home</span>
         Home
     </a>
+
     <a href="info.php">
         <span class="material-icons">info</span>
         Info
     </a>
-    <a href="schedule.php">
+
+    <a href="programma.php">
         <span class="material-icons">calendar_month</span>
-        Schedule
+        Programma
     </a>
+
     <a href="map.php">
         <span class="material-icons">map</span>
-        Map
+        Plattegrond
     </a>
 </nav>

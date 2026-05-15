@@ -1,23 +1,4 @@
-<!DOCTYPE html>
-<html lang="nl">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>❤️U Festival</title>
-
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Sansation:wght@300;400;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-    <!-- CSS -->
-    <link rel="stylesheet" href="css/global.css">
-    <link rel="stylesheet" href="css/home.css">
-</head>
-
-<body>
-
-    <?php include __DIR__ . '/assets/components/header.php'; ?>
+<?php include __DIR__ . '/assets/components/header.php'; ?>
 
     <main>
 
@@ -108,6 +89,5 @@
     <?php include __DIR__ . '/assets/components/footer.php'; ?>
 
     <script src="assets/js/darkmode.js"></script>
-</body>
 
 </html>
