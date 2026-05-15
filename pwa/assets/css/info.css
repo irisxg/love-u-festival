@@ -1,0 +1,233 @@
+/* --------------------------------------------- */
+/* INFO PAGINA */
+/* --------------------------------------------- */
+
+.info-page {
+    padding-bottom: 100px;
+}
+
+/* --------------------------------------------- */
+/* HEADER */
+/* --------------------------------------------- */
+
+.info-header {
+    padding: 20px;
+}
+
+/* HEADER: GEEL IN BEIDE MODES */
+.info-header h2 {
+    color: var(--secondary); 
+}
+
+.info-header .subtitle {
+    color: var(--text);
+}
+
+.info-header h2 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.info-header .subtitle {
+    font-size: 14px;
+    font-style: italic;
+}
+
+/* --------------------------------------------- */
+/* HERO IMAGE */
+/* --------------------------------------------- */
+
+.info-hero {
+    margin: 20px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 16px 24px rgba(0,0,0,0.05);
+}
+
+.info-hero img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
+/* --------------------------------------------- */
+/* ACCORDION WRAPPER */
+/* --------------------------------------------- */
+
+.info-accordion {
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* --------------------------------------------- */
+/* ACCORDION ITEM */
+/* --------------------------------------------- */
+
+.accordion-item {
+    background: var(--surface-container-lowest);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 16px 24px rgba(0,0,0,0.03);
+    border: 1px solid var(--border-subtle);
+}
+
+/* --------------------------------------------- */
+/* TRIGGER BUTTON */
+/* --------------------------------------------- */
+
+.accordion-trigger {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* --------------------------------------------- */
+/* TITEL + ICON */
+/* --------------------------------------------- */
+
+.accordion-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* ICONEN = GEEL */
+.accordion-title .material-icons {
+    color: var(--info);
+    font-size: 22px;
+}
+
+/* TEKST ACHTER ICONEN = ROOD */
+.accordion-title span:last-child {
+    color: var(--accent);
+    font-size: 18px;
+    font-weight: 600;
+}
+
+/* ARROW */
+.accordion-trigger .arrow {
+    transition: transform 0.3s ease;
+    color: var(--accent);
+}
+
+/* OPEN STATE */
+.accordion-item.open .arrow {
+    transform: rotate(180deg);
+}
+
+/* --------------------------------------------- */
+/* CONTENT */
+/* --------------------------------------------- */
+
+.accordion-content {
+    display: none;
+    padding: 0 16px 16px 16px;
+    color: var(--info);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.accordion-item.open .accordion-content {
+    display: block;
+}
+
+/* SUBHEADINGS = BLAUW */
+.accordion-content h4 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-top: 16px;
+    margin-bottom: 4px;
+    color: var(--secondary);
+}
+
+/* LINKS */
+.accordion-content a {
+    color: var(--accent);
+    text-decoration: underline;
+}
+
+/* LISTS */
+.accordion-content ul {
+    margin-top: 8px;
+    padding-left: 20px;
+}
+
+.accordion-content ul li {
+    list-style: disc;
+    margin-bottom: 4px;
+}
+
+/* INFO-WAARSCHUWINGEN = GEEL */
+.accordion-content .info,
+.accordion-content strong.info {
+    color: var(--info);
+    font-weight: 600;
+}
+
+/* --------------------------------------------- */
+/* DARK MODE */
+/* --------------------------------------------- */
+
+/* HEADER: zelfde als light (GEEL) */
+.dark .info-header h2 {
+    color: var(--secondary);
+}
+.dark .info-header .subtitle {
+    color: var(--text);
+}
+
+/* Achtergrondkaartjes */
+.dark .accordion-item {
+    background: var(--surface-container);
+    border-color: var(--surface-container-high);
+}
+
+/* ICONEN blijven GEEL */
+.dark .accordion-title .material-icons {
+    color: var(--info);
+}
+
+/* TEKST ACHTER ICONEN blijft ROOD */
+.dark .accordion-title span:last-child {
+    color: var(--accent);
+}
+
+/* SUBHEADINGS blijven BLAUW */
+.dark .accordion-content h4 {
+    color: var(--secondary);
+}
+
+/* BODYTEKST = WIT in dark */
+.dark .accordion-content {
+    color: var(--info);
+}
+
+/* INFO-WAARSCHUWINGEN = GEEL in dark */
+.dark .accordion-content .info,
+.dark .accordion-content strong.info {
+    color: var(--info);
+}
+
+/* ARROW = WIT in dark */
+.dark .accordion-trigger .arrow {
+    color: var(--info);
+}
+
+/* LINKS blijven ROOD */
+.dark .accordion-content a {
+    color: var(--accent);
+}
+
+/* HERO SHADOW */
+.dark .info-hero {
+    box-shadow: 0 16px 24px rgba(0,0,0,0.2);
+}

@@ -6,18 +6,26 @@
 
 
 :root {
+    /* Surfaces */
     --background: #f9f9f9;
     --surface: #ffffff;
     --surface-container: #f5f5f5;
     --surface-container-high: #eeeeee;
+    --surface-container-highest: #f2f2f2;
+    --surface-container-low: #f3f3f3;
+    --surface-container-lowest: #ffffff;
 
-    --text: #1b1b1b;
-    --text-secondary: #444444;
+    /* Text */
+    --text: #000000;
+    --text-secondary: #4a4a4a;
 
+    /* Festival kleuren */
     --primary: #000000;
-    --accent: #F03228;
-    --info: #E3B505;
+    --secondary: #247BA0; /* blauw */
+    --accent: #F03228;    /* rood */
+    --info: #E3B505;      /* geel */
 
+    /* Borders */
     --border-subtle: #dddddd;
 }
 
@@ -29,6 +37,7 @@ body {
 }
 
 .dark {
+    /* Surfaces */
     --background: #121414;
     --surface: #121414;
     --surface-container: #1e2020;
@@ -37,23 +46,18 @@ body {
     --surface-container-low: #1a1c1c;
     --surface-container-lowest: #0c0f0f;
 
-    --text: #e2e2e2;
-    --text-secondary: #e6bdb7;
+    /* Text */
+    --text: #ffffff;
+    --text-secondary: #d0d0d0;
 
-    --primary: #ffb4a9;
-    --primary-container: #ff5545;
+    /* Festival kleuren (blijven hetzelfde!) */
+    --primary: #ffffff;
+    --secondary: #247BA0; /* blauw */
+    --accent: #F03228;    /* rood */
+    --info: #E3B505;      /* geel */
 
-    --secondary: #84d0f8;
-    --secondary-container: #006b8f;
-
-    --tertiary: #f0c11d;
-    --tertiary-container: #d1a600;
-
-    --info: #E3B505;
-
-    --accent: #F03228;
-
-    --border-subtle: #5d3f3b;
+    /* Borders */
+    --border-subtle: #3a3a3a;
 }
 
 

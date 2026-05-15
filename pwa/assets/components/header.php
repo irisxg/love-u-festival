@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="/love-u-festival/pwa/assets/css/global.css">
     <link rel="stylesheet" href="/love-u-festival/pwa/assets/css/home.css">
     <link rel="stylesheet" href="/love-u-festival/pwa/assets/css/programma.css">
+    <link rel="stylesheet" href="/love-u-festival/pwa/assets/css/info.css">
 
 </head>
 
