@@ -1,5 +1,5 @@
 // ==============================
-// SUPER SMOOTH PINCH + PAN ENGINE
+// SUPER SMOOTH PINCH + PAN ENGINE (FINAL FIXED VERSION)
 // ==============================
 
 const viewport = document.getElementById("map-container");
@@ -9,44 +9,63 @@ let scale = 1;
 let tx = 0;
 let ty = 0;
 
+let minScale = 1;
+
 const pointers = new Map();
 let gesture = null;
-
-// Dynamisch de ECHTE kaart-afmetingen lezen
-function getMapSize() {
-  return {
-    w: inner.offsetWidth,
-    h: inner.offsetHeight
-  };
-}
 
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 const dist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
 
 // ==============================
-// CLAMP (voorkomt zwarte randen)
+// BEREKEN MINIMALE SCALE
+// ==============================
+
+function updateMinScale() {
+  const mapW = inner.offsetWidth;
+  const mapH = inner.offsetHeight;
+
+  const vpW = viewport.offsetWidth;
+  const vpH = viewport.offsetHeight;
+
+  // kaart moet minstens zo groot zijn als viewport
+  minScale = Math.max(vpW / mapW, vpH / mapH);
+
+  if (scale < minScale) {
+    scale = minScale;
+  }
+}
+
+// ==============================
+// PERFECTE CLAMP (EINDELIJK GOED)
 // ==============================
 
 function clampPan() {
-  const containerW = viewport.offsetWidth;
-  const containerH = viewport.offsetHeight;
+  const mapW = inner.offsetWidth * scale;
+  const mapH = inner.offsetHeight * scale;
 
-  const { w: MAP_W, h: MAP_H } = getMapSize();
+  const vpW = viewport.offsetWidth;
+  const vpH = viewport.offsetHeight;
 
-  const mapW = MAP_W * scale;
-  const mapH = MAP_H * scale;
+  // maximale pan-ruimte
+  const maxX = 0;
+  const maxY = 0;
 
-  let minX = containerW - mapW;
-  let minY = containerH - mapH;
+  const minX = vpW - mapW;
+  const minY = vpH - mapH;
 
-  let maxX = 0;
-  let maxY = 0;
+  // als kaart kleiner is dan viewport → centreren
+  if (mapW <= vpW) {
+    tx = (vpW - mapW) / 2;
+  } else {
+    tx = clamp(tx, minX, maxX);
+  }
 
-  if (mapW <= containerW) minX = maxX = (containerW - mapW) / 2;
-  if (mapH <= containerH) minY = maxY = (containerH - mapH) / 2;
-
-  tx = Math.min(maxX, Math.max(minX, tx));
-  ty = Math.min(maxY, Math.max(minY, ty));
+  if (mapH <= vpH) {
+    ty = (vpH - mapH) / 2;
+  } else {
+    ty = clamp(ty, minY, maxY);
+  }
 }
 
 // ==============================
@@ -57,6 +76,7 @@ function applyTransform() {
   clampPan();
   inner.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
 
+  // markers blijven mooi
   document.querySelectorAll(".marker, .user-marker").forEach(m => {
     m.style.transform = `translate(-50%, -50%) scale(${1 / scale})`;
   });
@@ -67,7 +87,7 @@ function applyTransform() {
 // ==============================
 
 function zoomAt(cx, cy, factor) {
-  const newScale = clamp(scale * factor, 1, 4);
+  const newScale = clamp(scale * factor, minScale, 4);
   if (newScale === scale) return;
 
   const k = newScale / scale;
@@ -105,6 +125,7 @@ viewport.addEventListener("pointermove", (e) => {
   e.preventDefault();
 
   if (pointers.size === 1) {
+    // PAN
     const p = [...pointers.values()][0];
     if (!gesture) gesture = { p, tx, ty };
     tx = gesture.tx + (p.x - gesture.p.x);
@@ -112,12 +133,13 @@ viewport.addEventListener("pointermove", (e) => {
     applyTransform();
 
   } else if (pointers.size === 2) {
+    // PINCH
     const [a, b] = [...pointers.values()];
     const m = { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
 
     if (!gesture) gesture = { a, b, d: dist(a, b), m, scale, tx, ty };
 
-    const k = clamp((dist(a, b) / gesture.d) * gesture.scale, 1, 4);
+    const k = clamp((dist(a, b) / gesture.d) * gesture.scale, minScale, 4);
     const rel = k / gesture.scale;
 
     tx = m.x - (gesture.m.x - gesture.tx) * rel;
@@ -150,7 +172,7 @@ document.getElementById("zoom-out")?.addEventListener("click", () => {
 });
 
 // ==============================
-// POPUP (jouw oude code)
+// POPUP
 // ==============================
 
 const popup = document.getElementById("popup-card");
@@ -165,7 +187,7 @@ document.querySelectorAll(".marker").forEach(marker => {
 });
 
 // ==============================
-// USER LOCATION (jouw oude code)
+// USER LOCATION
 // ==============================
 
 if (navigator.geolocation) {
@@ -175,4 +197,13 @@ if (navigator.geolocation) {
   });
 }
 
+// ==============================
+// INIT
+// ==============================
+
+updateMinScale();
 applyTransform();
+window.addEventListener("resize", () => {
+  updateMinScale();
+  applyTransform();
+});
