@@ -1,6 +1,7 @@
 <!-- index.php -->
 
 <?php include __DIR__ . '/assets/components/header.php'; ?>
+<link rel="stylesheet" href="/love-u-festival/pwa/assets/css/map.css">
 
 <body>
 

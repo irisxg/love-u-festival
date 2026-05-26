@@ -2,7 +2,8 @@
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes">
+
     <title>❤️U Festival</title>
 
     <!-- Fonts -->
@@ -14,11 +15,8 @@
     <link rel="stylesheet" href="/love-u-festival/pwa/assets/css/home.css">
     <link rel="stylesheet" href="/love-u-festival/pwa/assets/css/programma.css">
     <link rel="stylesheet" href="/love-u-festival/pwa/assets/css/info.css">
-    <link rel="stylesheet" href="/love-u-festival/pwa/assets/css/map.css">
-
 </head>
 
-<body>
 
 <header class="app-header">
     <div class="header-inner">
