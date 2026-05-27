@@ -1,15 +1,26 @@
-// BASIC PAN + ZOOM ENGINE
+// ==============================
+// SUPER SMOOTH PINCH + PAN ENGINE (YOUR ORIGINAL WORKING VERSION)
+// ==============================
+
 const viewport = document.getElementById("map-container");
 const inner = document.getElementById("map-content");
 
 let scale = 1;
 let tx = 0;
 let ty = 0;
+
 let minScale = 1;
 
-const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+const pointers = new Map();
+let gesture = null;
 
+const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+const dist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
+
+// ==============================
 // MIN SCALE
+// ==============================
+
 function updateMinScale() {
   const mapW = inner.offsetWidth;
   const mapH = inner.offsetHeight;
@@ -18,10 +29,14 @@ function updateMinScale() {
   const vpH = viewport.offsetHeight;
 
   minScale = Math.max(vpW / mapW, vpH / mapH);
+
   if (scale < minScale) scale = minScale;
 }
 
-// CLAMP + TRANSFORM
+// ==============================
+// CLAMP PAN
+// ==============================
+
 function clampPan() {
   const mapW = inner.offsetWidth * scale;
   const mapH = inner.offsetHeight * scale;
@@ -29,12 +44,28 @@ function clampPan() {
   const vpW = viewport.offsetWidth;
   const vpH = viewport.offsetHeight;
 
+  const maxX = 0;
+  const maxY = 0;
+
   const minX = vpW - mapW;
   const minY = vpH - mapH;
 
-  tx = clamp(tx, minX, 0);
-  ty = clamp(ty, minY, 0);
+  if (mapW <= vpW) {
+    tx = (vpW - mapW) / 2;
+  } else {
+    tx = clamp(tx, minX, maxX);
+  }
+
+  if (mapH <= vpH) {
+    ty = (vpH - mapH) / 2;
+  } else {
+    ty = clamp(ty, minY, maxY);
+  }
 }
+
+// ==============================
+// APPLY TRANSFORM
+// ==============================
 
 function applyTransform() {
   clampPan();
@@ -45,7 +76,10 @@ function applyTransform() {
   });
 }
 
+// ==============================
 // ZOOM AT POINT
+// ==============================
+
 function zoomAt(cx, cy, factor) {
   const newScale = clamp(scale * factor, minScale, 4);
   if (newScale === scale) return;
@@ -59,17 +93,24 @@ function zoomAt(cx, cy, factor) {
   applyTransform();
 }
 
-// PINCH ZOOM
-const pointers = new Map();
-let gesture = null;
+// ==============================
+// WHEEL ZOOM
+// ==============================
 
-const dist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
+viewport.addEventListener("wheel", (e) => {
+  e.preventDefault();
+  const r = viewport.getBoundingClientRect();
+  zoomAt(e.clientX - r.left, e.clientY - r.top, e.deltaY < 0 ? 1.12 : 1 / 1.12);
+}, { passive: false });
+
+// ==============================
+// POINTER EVENTS (PAN + PINCH)
+// ==============================
 
 viewport.addEventListener("pointerdown", (e) => {
   viewport.setPointerCapture(e.pointerId);
   pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
   gesture = null;
-  followUser = false;
   e.preventDefault();
 });
 
@@ -109,22 +150,15 @@ viewport.addEventListener("pointermove", (e) => {
   });
 });
 
-// ZOOM BUTTONS
-document.getElementById("zoom-in")?.addEventListener("click", () => {
-  const r = viewport.getBoundingClientRect();
-  zoomAt(r.width / 2, r.height / 2, 1.2);
-});
+// ==============================
+// POPUP OPEN
+// ==============================
 
-document.getElementById("zoom-out")?.addEventListener("click", () => {
-  const r = viewport.getBoundingClientRect();
-  zoomAt(r.width / 2, r.height / 2, 1 / 1.2);
-});
-
-// POPUP
 const popup = document.getElementById("popup-card");
 
 document.querySelectorAll(".marker").forEach(marker => {
-  marker.addEventListener("click", () => {
+  marker.addEventListener("click", (e) => {
+    e.stopPropagation();
     document.getElementById("popup-title").innerText = marker.dataset.title;
     document.getElementById("popup-current").innerText = marker.dataset.current;
     document.getElementById("popup-next").innerText = marker.dataset.next;
@@ -132,26 +166,28 @@ document.querySelectorAll(".marker").forEach(marker => {
   });
 });
 
-// POPUP CLOSE
-document.addEventListener("click", (e) => {
-  const popupCard = document.getElementById("popup-card");
+// ==============================
+// POPUP CLOSE (SAFE FOR PINCH)
+// ==============================
 
-  if (popupCard.classList.contains("hidden")) return;
-
-  if (popupCard.contains(e.target)) return;
-
+viewport.addEventListener("pointerup", (e) => {
+  if (popup.classList.contains("hidden")) return;
+  if (pointers.size > 0) return;
   if (e.target.closest(".marker")) return;
-
-  popupCard.classList.add("hidden");
+  if (popup.contains(e.target)) return;
+  popup.classList.add("hidden");
 });
 
-// REAL GPS FOLLOW
+// ==============================
+// REAL GPS FOLLOW + MY LOCATION BUTTON
+// ==============================
+
 const userMarker = document.querySelector(".user-marker");
 
 let userX = 0.5;
 let userY = 0.5;
 let lastGps = null;
-let followUser = true;
+let followUser = false;
 
 const metersPerLat = 111320;
 const metersPerLng = 71460;
@@ -203,10 +239,14 @@ navigator.geolocation.watchPosition(
   { enableHighAccuracy: true, maximumAge: 500, timeout: 10000 }
 );
 
-// LOCATIE KNOP
+// ==============================
+// MY LOCATION BUTTON (ZOOM + CENTER)
+// ==============================
+
 document.getElementById("my-location")?.addEventListener("click", () => {
   followUser = true;
-  scale = 2.5;
+
+  scale = Math.max(scale, 2.5);
 
   const px = userX * inner.offsetWidth;
   const py = userY * inner.offsetHeight;
@@ -220,11 +260,12 @@ document.getElementById("my-location")?.addEventListener("click", () => {
   applyTransform();
 });
 
-window.addEventListener("load", () => {
-  updateMinScale();
-  updateUserMarker();
-  applyTransform();
-});
+// ==============================
+// INIT
+// ==============================
+
+updateMinScale();
+applyTransform();
 
 window.addEventListener("resize", () => {
   updateMinScale();
