@@ -1,5 +1,5 @@
 // ==============================
-// SUPER SMOOTH PINCH + PAN ENGINE (FINAL FIXED VERSION)
+// BASIC PAN + ZOOM ENGINE
 // ==============================
 
 const viewport = document.getElementById("map-container");
@@ -8,17 +8,12 @@ const inner = document.getElementById("map-content");
 let scale = 1;
 let tx = 0;
 let ty = 0;
-
 let minScale = 1;
 
-const pointers = new Map();
-let gesture = null;
-
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
-const dist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
 
 // ==============================
-// BEREKEN MINIMALE SCALE
+// MIN SCALE
 // ==============================
 
 function updateMinScale() {
@@ -28,16 +23,12 @@ function updateMinScale() {
   const vpW = viewport.offsetWidth;
   const vpH = viewport.offsetHeight;
 
-  // kaart moet minstens zo groot zijn als viewport
   minScale = Math.max(vpW / mapW, vpH / mapH);
-
-  if (scale < minScale) {
-    scale = minScale;
-  }
+  if (scale < minScale) scale = minScale;
 }
 
 // ==============================
-// PERFECTE CLAMP (EINDELIJK GOED)
+// CLAMP + TRANSFORM
 // ==============================
 
 function clampPan() {
@@ -47,36 +38,17 @@ function clampPan() {
   const vpW = viewport.offsetWidth;
   const vpH = viewport.offsetHeight;
 
-  // maximale pan-ruimte
-  const maxX = 0;
-  const maxY = 0;
-
   const minX = vpW - mapW;
   const minY = vpH - mapH;
 
-  // als kaart kleiner is dan viewport → centreren
-  if (mapW <= vpW) {
-    tx = (vpW - mapW) / 2;
-  } else {
-    tx = clamp(tx, minX, maxX);
-  }
-
-  if (mapH <= vpH) {
-    ty = (vpH - mapH) / 2;
-  } else {
-    ty = clamp(ty, minY, maxY);
-  }
+  tx = clamp(tx, minX, 0);
+  ty = clamp(ty, minY, 0);
 }
-
-// ==============================
-// APPLY TRANSFORM
-// ==============================
 
 function applyTransform() {
   clampPan();
   inner.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
 
-  // markers blijven mooi
   document.querySelectorAll(".marker, .user-marker").forEach(m => {
     m.style.transform = `translate(-50%, -50%) scale(${1 / scale})`;
   });
@@ -100,22 +72,19 @@ function zoomAt(cx, cy, factor) {
 }
 
 // ==============================
-// WHEEL ZOOM
+// POINTER PAN + PINCH
 // ==============================
 
-viewport.addEventListener("wheel", (e) => {
-  e.preventDefault();
-  const r = viewport.getBoundingClientRect();
-  zoomAt(e.clientX - r.left, e.clientY - r.top, e.deltaY < 0 ? 1.12 : 1 / 1.12);
-}, { passive: false });
+const pointers = new Map();
+let gesture = null;
 
-// ==============================
-// POINTER EVENTS (PAN + PINCH)
-// ==============================
+const dist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
 
 viewport.addEventListener("pointerdown", (e) => {
   viewport.setPointerCapture(e.pointerId);
   pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+  gesture = null;
+  followUser = false;
   e.preventDefault();
 });
 
@@ -125,7 +94,6 @@ viewport.addEventListener("pointermove", (e) => {
   e.preventDefault();
 
   if (pointers.size === 1) {
-    // PAN
     const p = [...pointers.values()][0];
     if (!gesture) gesture = { p, tx, ty };
     tx = gesture.tx + (p.x - gesture.p.x);
@@ -133,7 +101,6 @@ viewport.addEventListener("pointermove", (e) => {
     applyTransform();
 
   } else if (pointers.size === 2) {
-    // PINCH
     const [a, b] = [...pointers.values()];
     const m = { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
 
@@ -187,22 +154,96 @@ document.querySelectorAll(".marker").forEach(marker => {
 });
 
 // ==============================
-// USER LOCATION
+// USER MARKER + REAL GPS FOLLOW
 // ==============================
 
-if (navigator.geolocation) {
-  navigator.geolocation.getCurrentPosition((position) => {
-    console.log(position.coords.latitude);
-    console.log(position.coords.longitude);
-  });
+const userMarker = document.querySelector(".user-marker");
+
+let userX = 0.5;
+let userY = 0.5;
+let lastGps = null;
+let followUser = true;
+
+const metersPerLat = 111320;
+const metersPerLng = 71460;
+
+function updateUserMarker() {
+  userMarker.style.left = (userX * 100) + "%";
+  userMarker.style.top = (userY * 100) + "%";
 }
+
+function handleGps(pos) {
+  const { latitude, longitude } = pos.coords;
+
+  if (lastGps) {
+    const dLat = latitude - lastGps.lat;
+    const dLng = longitude - lastGps.lng;
+
+    const metersY = dLat * metersPerLat;
+    const metersX = dLng * metersPerLng;
+
+    const factor = 0.0008;
+
+    userX += metersX * factor;
+    userY -= metersY * factor;
+
+    userX = clamp(userX, 0.05, 0.95);
+    userY = clamp(userY, 0.05, 0.95);
+  }
+
+  lastGps = { lat: latitude, lng: longitude };
+  updateUserMarker();
+
+  if (followUser) {
+    const px = userX * inner.offsetWidth;
+    const py = userY * inner.offsetHeight;
+
+    const vpW = viewport.offsetWidth;
+    const vpH = viewport.offsetHeight;
+
+    tx = vpW / 2 - px * scale;
+    ty = vpH / 2 - py * scale;
+
+    applyTransform();
+  }
+}
+
+navigator.geolocation.watchPosition(
+  handleGps,
+  (err) => console.warn("GPS error", err),
+  { enableHighAccuracy: true, maximumAge: 500, timeout: 10000 }
+);
+
+// ==============================
+// MIJN LOCATIE KNOP
+// ==============================
+
+document.getElementById("my-location")?.addEventListener("click", () => {
+  followUser = true;
+  scale = 2.5;
+
+  const px = userX * inner.offsetWidth;
+  const py = userY * inner.offsetHeight;
+
+  const vpW = viewport.offsetWidth;
+  const vpH = viewport.offsetHeight;
+
+  tx = vpW / 2 - px * scale;
+  ty = vpH / 2 - py * scale;
+
+  applyTransform();
+});
 
 // ==============================
 // INIT
 // ==============================
 
-updateMinScale();
-applyTransform();
+window.addEventListener("load", () => {
+  updateMinScale();
+  updateUserMarker();
+  applyTransform();
+});
+
 window.addEventListener("resize", () => {
   updateMinScale();
   applyTransform();

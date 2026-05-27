@@ -2,7 +2,10 @@
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes">
+
+    <!-- iPhone & PWA veilige viewport -->
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
     <title>❤️U Festival</title>
 
@@ -17,6 +20,7 @@
     <link rel="stylesheet" href="/love-u-festival/pwa/assets/css/info.css">
 </head>
 
+<body>
 
 <header class="app-header">
     <div class="header-inner">
@@ -31,4 +35,3 @@
         </div>
     </div>
 </header>
-
