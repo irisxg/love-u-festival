@@ -23,183 +23,9 @@
         </div>
     </section>
 
-    <!-- DAG 1 GRID -->
-    <section class="programma-grid day1 visible">
+    <section class="programma-grid day1 visible" id="day1-grid"></section>
 
-        <div class="stage">
-            <div class="stage-header">
-                <h3>Main Stage</h3>
-                <span class="material-icons">bolt</span>
-            </div>
-
-            <div class="stage-items">
-
-                <div class="artist-card live">
-                    <p class="time">19:00 – 20:30</p>
-                    <h4>NINA KRAVIZ</h4>
-                    <p class="genre">Techno / Acid</p>
-                </div>
-
-                <div class="artist-card dj">
-                    <p class="time">21:00 – 23:00</p>
-                    <h4>PEGGY GOU</h4>
-                    <p class="genre">House / Disco</p>
-                </div>
-
-                <div class="artist-card live">
-                    <p class="time">23:30 – 01:00</p>
-                    <h4>BICEP</h4>
-                    <p class="genre">Electronic / Live</p>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="stage">
-            <div class="stage-header">
-                <h3>Forest</h3>
-                <span class="material-icons">forest</span>
-            </div>
-
-            <div class="stage-items">
-
-                <div class="artist-card dj">
-                    <p class="time">18:00 – 20:00</p>
-                    <h4>HUNEE</h4>
-                    <p class="genre">World / Rare Groove</p>
-                </div>
-
-                <div class="artist-card live">
-                    <p class="time">20:30 – 22:00</p>
-                    <h4>CARIBOU</h4>
-                    <p class="genre">Indie Electronic</p>
-                </div>
-
-                <div class="artist-card dj">
-                    <p class="time">22:30 – 00:30</p>
-                    <h4>KIASMOS</h4>
-                    <p class="genre">Minimal / Techno</p>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="stage">
-            <div class="stage-header">
-                <h3>Club</h3>
-                <span class="material-icons">nightlight</span>
-            </div>
-
-            <div class="stage-items">
-
-                <div class="artist-card dj">
-                    <p class="time">20:00 – 22:00</p>
-                    <h4>OBJET</h4>
-                    <p class="genre">Experimental Techno</p>
-                </div>
-
-                <div class="artist-card dj">
-                    <p class="time">22:00 – 00:00</p>
-                    <h4>HELENA HAUFF</h4>
-                    <p class="genre">Electro / Industrial</p>
-                </div>
-
-                <div class="artist-card live">
-                    <p class="time">00:00 – 02:00</p>
-                    <h4>VTSS</h4>
-                    <p class="genre">Hard Techno</p>
-                </div>
-
-            </div>
-        </div>
-
-    </section>
-
-    <!-- DAG 2 GRID -->
-    <section class="programma-grid day2">
-
-        <div class="stage">
-            <div class="stage-header">
-                <h3>Main Stage</h3>
-                <span class="material-icons">bolt</span>
-            </div>
-
-            <div class="stage-items">
-
-                <div class="artist-card live">
-                    <p class="time">18:00 – 19:30</p>
-                    <h4>THE BLAZE</h4>
-                    <p class="genre">Electronic / Live</p>
-                </div>
-
-                <div class="artist-card dj">
-                    <p class="time">20:00 – 22:00</p>
-                    <h4>JOB JOBSE</h4>
-                    <p class="genre">House / Techno</p>
-                </div>
-
-                <div class="artist-card live">
-                    <p class="time">22:30 – 00:00</p>
-                    <h4>MODERAT</h4>
-                    <p class="genre">Electronic / Live</p>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="stage">
-            <div class="stage-header">
-                <h3>Forest</h3>
-                <span class="material-icons">forest</span>
-            </div>
-
-            <div class="stage-items">
-
-                <div class="artist-card dj">
-                    <p class="time">17:00 – 19:00</p>
-                    <h4>PALMS TRAX</h4>
-                    <p class="genre">House / Disco</p>
-                </div>
-
-                <div class="artist-card live">
-                    <p class="time">19:30 – 21:00</p>
-                    <h4>DJ KOZE</h4>
-                    <p class="genre">Electronic / Experimental</p>
-                </div>
-
-                <div class="artist-card dj">
-                    <p class="time">21:30 – 23:00</p>
-                    <h4>MALL GRAB</h4>
-                    <p class="genre">Techno / Breaks</p>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="stage">
-            <div class="stage-header">
-                <h3>Club</h3>
-                <span class="material-icons">nightlight</span>
-            </div>
-
-            <div class="stage-items">
-
-                <div class="artist-card dj">
-                    <p class="time">19:00 – 21:00</p>
-                    <h4>ANNA</h4>
-                    <p class="genre">Techno</p>
-                </div>
-
-                <div class="artist-card dj">
-                    <p class="time">21:00 – 23:00</p>
-                    <h4>REINIER ZONNEVELD</h4>
-                    <p class="genre">Techno / Live</p>
-                </div>
-
-            </div>
-        </div>
-
-    </section>
+    <section class="programma-grid day2" id="day2-grid"></section>
 
     <section class="promo-card">
         <img src="assets/img/promo.jpg" alt="Festival sfeer">
@@ -212,24 +38,51 @@
 
 </main>
 
+<!-- ARTIEST POPUP -->
+<div class="artist-modal hidden" id="artist-modal">
+
+    <div class="artist-modal-backdrop" id="artist-modal-backdrop"></div>
+
+    <div class="artist-modal-card">
+
+        <button class="artist-modal-close" id="artist-modal-close">
+            <span class="material-symbols-outlined">close</span>
+        </button>
+
+        <div class="artist-modal-header">
+            <img id="artist-image" src="" alt="">
+            <div class="artist-header-overlay"></div>
+            <div class="artist-header-text">
+                <h2 id="artist-name"></h2>
+                <p id="artist-short"></p>
+            </div>
+        </div>
+
+        <div class="artist-modal-body">
+
+            <p class="artist-time-stage" id="artist-time-stage"></p>
+
+            <p class="artist-bio" id="artist-bio"></p>
+
+            <div class="artist-video-wrapper">
+                <iframe
+                    id="artist-video"
+                    src=""
+                    title="Artist video"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+                </iframe>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
 <?php include __DIR__ . '/assets/components/footer.php'; ?>
 
 <script src="assets/js/darkmode.js"></script>
-
-<script>
-document.querySelectorAll('.day-toggle button').forEach(button => {
-    button.addEventListener('click', () => {
-
-        document.querySelector('.day-toggle .active')?.classList.remove('active');
-        button.classList.add('active');
-
-        const day = button.dataset.day;
-
-        document.querySelectorAll('.programma-grid').forEach(grid => {
-            grid.classList.remove('visible');
-        });
-
-        document.querySelector(`.${day}`).classList.add('visible');
-    });
-});
-</script>
+<script type="module" src="assets/js/programma.js"></script>
