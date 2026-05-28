@@ -4,11 +4,10 @@
 <link rel="stylesheet" href="/love-u-festival/pwa/assets/css/map.css">
 
 <link
-  rel="stylesheet"
-  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-/>
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script
-  src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
 </script>
 
 <main id="map-wrapper">
@@ -22,8 +21,7 @@
 
         <input
             type="text"
-            placeholder="Zoek een podium of bar..."
-        >
+            placeholder="Zoek een podium of bar...">
 
         <span class="material-symbols-outlined mic-icon">
             mic
@@ -31,65 +29,72 @@
 
     </div>
 
-<!-- MAP CONTAINER -->
-<div id="map-container">
+    <!-- MAP CONTAINER -->
+    <div id="map-container">
 
-    <div id="map-content">
+        <div id="map-content">
 
-        <!-- MAP IMAGE (SVG als IMG, niet OBJECT) -->
-        <img
-            id="festival-map"
-            src="assets/svg/festival-map.svg"
-            alt="Festival Map"
-        >
+            <!-- MAP IMAGE (SVG als IMG, niet OBJECT) -->
+            <img
+                id="festival-map"
+                src="assets/svg/festival-map.svg"
+                alt="Festival Map">
 
-        <!-- USER LOCATION -->
-        <div class="user-marker"></div>
+            <!-- USER LOCATION -->
+            <div class="user-marker"></div>
 
-        <!-- MARKERS -->
-        <div
-            class="marker"
-            style="left:18%; top:67%;"
-            data-title="Ponton"
-            data-current="Main Act Live"
-            data-next="DJ Nova"
-        >
-            <div class="marker-number">1</div>
-        </div>
+            <!-- MARKERS -->
+            <div
+                class="marker"
+                style="left:18%; top:67%;"
+                data-title="Ponton"
+                data-current="Main Act Live"
+                data-next="DJ Nova">
+                <img src="assets/svg/marker_stage1_ponton.svg" class="marker-icon">
+            </div>
 
-        <div
-            class="marker"
-            style="left:50%; top:48%;"
-            data-title="The Lake"
-            data-current="Unknown Talent"
-            data-next="Luna Beats"
-        >
-            <div class="marker-number">2</div>
-        </div>
+            <div
+                class="marker"
+                style="left:50%; top:48%;"
+                data-title="The Lake"
+                data-current="Unknown Talent"
+                data-next="Luna Beats">
+                <img src="assets/svg/marker_stage2_the_lake.svg" class="marker-icon">
+            </div>
 
-        <div
-            class="marker"
-            style="left:68%; top:40%;"
-            data-title="The Club"
-            data-current="Comedy Show"
-            data-next="Stand-up Live"
-        >
-            <div class="marker-number">3</div>
-        </div>
+            <div
+                class="marker"
+                style="left:68%; top:40%;"
+                data-title="The Club"
+                data-current="Comedy Show"
+                data-next="Stand-up Live">
+                <img src="assets/svg/marker_stage3_the_club.svg" class="marker-icon">
+            </div>
 
-        <div
-            class="marker"
-            style="left:88%; top:12%;"
-            data-title="Hangar"
-            data-current="Techno Set"
-            data-next="House Session"
-        >
-            <div class="marker-number">4</div>
+            <div
+                class="marker"
+                style="left:88%; top:12%;"
+                data-title="Hangar"
+                data-current="Techno Set"
+                data-next="House Session">
+                <img src="assets/svg/marker_stage4_hangar.svg" class="marker-icon">
+            </div>
+
+            <div
+                class="marker"
+                style="left:18%; top:31%;"
+                data-title="Hangar"
+                data-current="Techno Set"
+                data-next="House Session">
+                <img src="assets/svg/marker_first_aid.svg" class="marker-icon">
+            </div>
+
+
+
+
         </div>
 
     </div>
-
-</div>
 
 
     <!-- CONTROLS -->
@@ -123,8 +128,7 @@
             <div class="popup-image">
                 <img
                     src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?q=80&w=1200"
-                    alt=""
-                >
+                    alt="">
             </div>
 
             <div class="popup-info">
@@ -226,4 +230,5 @@
 <script src="assets/js/map.js"></script>
 
 </body>
+
 </html>
