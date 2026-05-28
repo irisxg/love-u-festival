@@ -1,11 +1,80 @@
 import { scheduleData, getTimeString } from "./schedule.js";
 
 /* =========================================================
+   FAVORIETEN
+========================================================= */
+
+let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+
+function saveFavorites() {
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+}
+
+function isFavorite(name) {
+    return favorites.includes(name);
+}
+
+function toggleFavorite(name) {
+    if (isFavorite(name)) {
+        favorites = favorites.filter(f => f !== name);
+    } else {
+        favorites.push(name);
+    }
+    saveFavorites();
+    renderFavorites();
+    renderProgram();
+}
+
+/* =========================================================
+   FAVORIETEN BLOK
+========================================================= */
+
+function renderFavorites() {
+    const section = document.getElementById("favorites-section");
+    const list = document.getElementById("favorites-list");
+
+    if (!section || !list) return;
+
+    if (favorites.length === 0) {
+        section.style.display = "none";
+        return;
+    }
+
+    section.style.display = "block";
+    list.innerHTML = "";
+
+    favorites.forEach(name => {
+        const act = findAct(name);
+        if (!act) return;
+
+        const div = document.createElement("div");
+        div.classList.add("fav-card");
+
+        div.innerHTML = `
+            <div class="fav-title">${act.name}</div>
+            <div class="fav-time">${act.start} – ${act.end} • ${act.stage}</div>
+        `;
+
+        list.appendChild(div);
+    });
+}
+
+function findAct(name) {
+    for (const day in scheduleData) {
+        for (const stage in scheduleData[day]) {
+            const found = scheduleData[day][stage].find(a => a.name === name);
+            if (found) return found;
+        }
+    }
+    return null;
+}
+
+/* =========================================================
    HELPERS
 ========================================================= */
 
 function isNowBetween(start, end) {
-    const now = getTimeString(); // "HH:MM"
+    const now = getTimeString();
     return start <= now && now <= end;
 }
 
@@ -19,94 +88,7 @@ function toEmbedUrl(url) {
 }
 
 /* =========================================================
-   BUILD PROGRAM FOR DAY
-========================================================= */
-
-function buildProgram(dayKey, containerId) {
-    const container = document.getElementById(containerId);
-    container.innerHTML = "";
-
-    const stages = scheduleData[dayKey];
-    if (!stages) return;
-
-    Object.keys(stages).forEach(stageName => {
-        const stageDiv = document.createElement("div");
-        stageDiv.classList.add("stage");
-
-        stageDiv.innerHTML = `
-            <div class="stage-header">
-                <h3>${stageName}</h3>
-                <span class="material-icons">bolt</span>
-            </div>
-            <div class="stage-items"></div>
-        `;
-
-        const itemsDiv = stageDiv.querySelector(".stage-items");
-
-        const acts = stages[stageName]
-            .slice()
-            .sort((a, b) => a.start.localeCompare(b.start));
-
-        acts.forEach(act => {
-            const card = document.createElement("div");
-            card.classList.add("artist-card");
-
-            // kleur op basis van type
-            if (act.type === "dj") card.classList.add("dj");
-            if (act.type === "artist") card.classList.add("live");
-
-            // NOW highlight
-            const now = isNowBetween(act.start, act.end);
-            if (now) card.classList.add("now");
-
-            // check of act detail-popup heeft
-            const hasDetail =
-                act.type === "artist" &&
-                act.image &&
-                act.video &&
-                act.bio &&
-                act.short;
-
-            if (hasDetail) {
-                card.classList.add("clickable");
-                card.dataset.name = act.name;
-                card.dataset.short = act.short;
-                card.dataset.bio = act.bio;
-                card.dataset.image = act.image;
-                card.dataset.video = act.video;
-                card.dataset.time = `${act.start} – ${act.end}`;
-                card.dataset.stage = stageName;
-            }
-
-            const shortText = act.short || "";
-            const stageLabel = `${stageName} • ${act.start} – ${act.end}`;
-
-            card.innerHTML = `
-                <div class="time-row">
-                    <p class="time">${act.start} – ${act.end}</p>
-                    ${now ? `<span class="now-pill">NOW</span>` : ""}
-                </div>
-
-                <h4>${act.name}</h4>
-
-                <p class="short">${shortText}</p>
-
-                <p class="stage-label">${stageLabel}</p>
-            `;
-
-            if (hasDetail) {
-                card.addEventListener("click", () => openArtistModal(card));
-            }
-
-            itemsDiv.appendChild(card);
-        });
-
-        container.appendChild(stageDiv);
-    });
-}
-
-/* =========================================================
-   ARTIST MODAL
+   ARTIST POPUP (ZONDER HARTJE)
 ========================================================= */
 
 const modal = document.getElementById("artist-modal");
@@ -120,44 +102,119 @@ const artistBio = document.getElementById("artist-bio");
 const artistTimeStage = document.getElementById("artist-time-stage");
 const artistVideo = document.getElementById("artist-video");
 
-function openArtistModal(card) {
-    artistImage.src = card.dataset.image;
-    artistName.textContent = card.dataset.name;
-    artistShort.textContent = card.dataset.short;
-    artistBio.textContent = card.dataset.bio;
-    artistTimeStage.textContent = `${card.dataset.stage} • ${card.dataset.time}`;
-    artistVideo.src = toEmbedUrl(card.dataset.video);
+function openArtistModal(act) {
+    artistImage.src = act.image;
+    artistName.textContent = act.name;
+    artistShort.textContent = act.short;
+    artistBio.textContent = act.bio;
+    artistTimeStage.textContent = `${act.stage} • ${act.start} – ${act.end}`;
+    artistVideo.src = toEmbedUrl(act.video);
+
+    // Geen hartje meer in popup → geen code nodig
 
     modal.classList.remove("hidden");
 }
 
-function closeArtistModal() {
-    artistVideo.src = "";
-    modal.classList.add("hidden");
-}
-
-modalBackdrop.addEventListener("click", closeArtistModal);
-modalClose.addEventListener("click", closeArtistModal);
+modalBackdrop.addEventListener("click", () => modal.classList.add("hidden"));
+modalClose.addEventListener("click", () => modal.classList.add("hidden"));
 
 document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closeArtistModal();
+    if (e.key === "Escape") modal.classList.add("hidden");
 });
 
 /* =========================================================
-   WAIT FOR JSON, THEN BUILD
+   PROGRAMMA BOUWEN (HARTJE RECHTS-ONDER)
 ========================================================= */
 
-const waitForData = setInterval(() => {
-    if (Object.keys(scheduleData).length > 0) {
-        clearInterval(waitForData);
+function renderProgram() {
+    ["day1", "day2"].forEach(dayKey => {
+        const container = document.getElementById(`${dayKey}-grid`);
+        container.innerHTML = "";
 
-        buildProgram("Zaterdag", "day1-grid");
-        buildProgram("Zondag", "day2-grid");
-    }
-}, 50);
+        const dayName = dayKey === "day1" ? "Zaterdag" : "Zondag";
+        const stages = scheduleData[dayName];
+
+        Object.keys(stages).forEach(stageName => {
+            const stageDiv = document.createElement("div");
+            stageDiv.classList.add("stage");
+
+            stageDiv.innerHTML = `
+                <div class="stage-header">
+                    <h3>${stageName}</h3>
+                    <span class="material-icons">bolt</span>
+                </div>
+                <div class="stage-items"></div>
+            `;
+
+            const itemsDiv = stageDiv.querySelector(".stage-items");
+
+            const acts = stages[stageName]
+                .slice()
+                .sort((a, b) => a.start.localeCompare(b.start));
+
+            acts.forEach(act => {
+                const card = document.createElement("div");
+                card.classList.add("artist-card");
+
+                if (act.type === "dj") card.classList.add("dj");
+                if (act.type === "artist") card.classList.add("live");
+
+                const now = isNowBetween(act.start, act.end);
+                if (now) card.classList.add("now");
+
+                const hasDetail =
+                    act.type === "artist" &&
+                    act.image &&
+                    act.video &&
+                    act.bio &&
+                    act.short;
+
+                const shortText = act.short || "";
+                const stageLabel = `${stageName} • ${act.start} – ${act.end}`;
+
+                card.innerHTML = `
+                    <div class="time-row">
+                        <p class="time">${act.start} – ${act.end}</p>
+                        ${now ? `<span class="now-pill">NOW</span>` : ""}
+                    </div>
+
+                    <h4>${act.name}</h4>
+
+                    <p class="short">${shortText}</p>
+
+                    <p class="stage-label">${stageLabel}</p>
+
+                    <!-- HARTJE RECHTS-ONDER -->
+                    <div class="fav-bottom-wrapper">
+                        <button class="fav-small-btn bottom" data-name="${act.name}">
+                            <span class="material-icons">
+                                ${isFavorite(act.name) ? "favorite" : "favorite_border"}
+                            </span>
+                        </button>
+                    </div>
+                `;
+
+                // HARTJE KLIK
+                card.querySelector(".fav-small-btn").onclick = (e) => {
+                    e.stopPropagation();
+                    toggleFavorite(act.name);
+                };
+
+                // POPUP KLIK
+                if (hasDetail) {
+                    card.onclick = () => openArtistModal(act);
+                }
+
+                itemsDiv.appendChild(card);
+            });
+
+            container.appendChild(stageDiv);
+        });
+    });
+}
 
 /* =========================================================
-   DAY TOGGLE
+   DAG SWITCH
 ========================================================= */
 
 document.querySelectorAll(".day-toggle button").forEach(button => {
@@ -174,3 +231,24 @@ document.querySelectorAll(".day-toggle button").forEach(button => {
         document.querySelector(`.${day}`).classList.add("visible");
     });
 });
+// LEGENDA POPUP
+const legendBtn = document.getElementById("legend-btn");
+const legendPopup = document.getElementById("legend-popup");
+const legendClose = document.getElementById("legend-close");
+
+legendBtn.onclick = () => legendPopup.classList.remove("hidden");
+legendClose.onclick = () => legendPopup.classList.add("hidden");
+
+
+/* =========================================================
+   INIT
+========================================================= */
+
+const waitForData = setInterval(() => {
+    if (Object.keys(scheduleData).length > 0) {
+        clearInterval(waitForData);
+
+        renderFavorites();
+        renderProgram();
+    }
+}, 50);

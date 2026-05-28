@@ -2,18 +2,11 @@
 
 <main class="info-page">
 
-    <!-- PAGINA TITEL -->
     <section class="info-header">
         <h2>Informatie</h2>
         <p class="subtitle">Alles wat je moet weten over jouw festivalervaring.</p>
     </section>
 
-    <!-- HERO VISUAL -->
-    <div class="info-hero">
-        <img src="assets/img/info-hero.jpg" alt="Festival sfeer">
-    </div>
-
-    <!-- ACCORDION WRAPPER -->
     <div class="info-accordion">
 
         <!-- ALGEMEEN & CONTACT -->

@@ -2,6 +2,8 @@
 
 <main class="programma-page">
 
+
+    <!-- HEADER -->
     <section class="programma-header">
         <h2>Programma</h2>
 
@@ -11,6 +13,7 @@
         </div>
     </section>
 
+    <!-- LEGEND -->
     <section class="programma-legend">
         <div class="legend-item">
             <span class="dot live"></span>
@@ -23,18 +26,11 @@
         </div>
     </section>
 
+    <!-- DAG 1 -->
     <section class="programma-grid day1 visible" id="day1-grid"></section>
 
+    <!-- DAG 2 -->
     <section class="programma-grid day2" id="day2-grid"></section>
-
-    <section class="promo-card">
-        <img src="assets/img/promo.jpg" alt="Festival sfeer">
-        <div class="promo-content">
-            <p class="label">Uitgelichte Artiest</p>
-            <h3>CHARLOTTE DE WITTE</h3>
-            <button class="promo-btn">BEKIJK PROFIEL</button>
-        </div>
-    </section>
 
 </main>
 
@@ -86,3 +82,4 @@
 
 <script src="assets/js/darkmode.js"></script>
 <script type="module" src="assets/js/programma.js"></script>
+</html>

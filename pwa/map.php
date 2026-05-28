@@ -31,7 +31,6 @@
 </div>
 
 
-<!-- MAP CONTAINER -->
 <div id="map-container">
 
     <div id="map-content">
@@ -277,12 +276,10 @@
 <!-- CONTROLS (RECHTSBOVEN) -->
 <div class="map-controls">
 
-    <!-- FAVORIETEN OVERZICHT (WÉL klikbaar) -->
     <button id="favorites-list-btn" class="map-star-btn">
         <span class="material-symbols-outlined">star</span>
     </button>
 
-    <!-- MY LOCATION -->
     <button id="my-location" class="primary-btn">
         <span class="material-symbols-outlined">my_location</span>
     </button>
@@ -290,7 +287,6 @@
 </div>
 
 
-<!-- POPUP -->
 <div id="popup-card" class="hidden">
 
     <div class="popup-content">
@@ -329,15 +325,10 @@
 
     </div>
 
-    <!-- POPUP BUTTONS -->
     <div class="popup-actions">
-
-        <!-- FAVORITE ACTIE KNOP (ROOD) -->
         <button class="favorite-btn" id="favorite-toggle">
             FAVORITE
         </button>
-
-        <!-- FAVORITE STATUS KNOP (STER) — NIET klikbaar -->
         <button class="favorite-status-btn" id="favorite-status">
             <span class="material-symbols-outlined" id="favorite-status-icon">
                 star_border
@@ -348,8 +339,6 @@
 
 </div>
 
-
-<!-- FAVORIETEN POPUP (APART, BUITEN popup-card) -->
 <div id="favorites-popup" class="hidden">
 
     <div class="favorites-window">
@@ -362,7 +351,6 @@
         </div>
 
         <div id="favorites-list" class="favorites-list">
-            <!-- Wordt gevuld via JS -->
         </div>
 
     </div>
@@ -374,42 +362,10 @@
 
 </main>
 
-<!-- NAVIGATION -->
-<nav class="bottom-nav">
-
-    <button>
-        <span class="material-symbols-outlined">
-            home
-        </span>
-        <span>Home</span>
-    </button>
-
-    <button>
-        <span class="material-symbols-outlined">
-            info
-        </span>
-        <span>Info</span>
-    </button>
-
-    <button>
-        <span class="material-symbols-outlined">
-            calendar_today
-        </span>
-        <span>Schedule</span>
-    </button>
-
-    <button class="active">
-        <span class="material-symbols-outlined">
-            map
-        </span>
-        <span>Map</span>
-    </button>
-
-</nav>
 
 <?php include __DIR__ . '/assets/components/footer.php'; ?>
 
-<!-- JS -->
+
 <script src="assets/js/darkmode.js"></script>
 <script type="module" src="assets/js/schedule.js"></script>
 <script type="module" src="assets/js/map.js"></script>

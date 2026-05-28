@@ -422,6 +422,87 @@ body{
   color:#FFD700;
 }
 
+
+/* ================================
+   TEST POPUP (UNIEKE NAMEN)
+================================ */
+
+#legend-test-popup {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+}
+
+#legend-test-popup.hidden {
+  display: none !important;
+}
+
+/* WINDOW */
+#legend-test-popup .favorites-window {
+  width: 90%;
+  max-width: 420px;
+  background: var(--surface);
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+  animation: popupFade 0.25s ease;
+}
+
+/* HEADER */
+#legend-test-popup .favorites-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+#legend-test-popup .favorites-header h3 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+#legend-test-popup .favorites-header button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+#legend-test-popup .favorites-header .material-symbols-outlined {
+  font-size: 26px;
+}
+
+/* CONTENT */
+#legend-test-list {
+  max-height: 60vh;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+/* IMAGE */
+#legend-test-popup .legend-img {
+  width: 100%;
+  border-radius: 12px;
+  margin-top: 10px;
+}
+
+/* ANIMATIE */
+@keyframes popupFade {
+  from {
+      opacity: 0;
+      transform: translateY(10px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+
 /* =========================
    MOBILE FIXES
 ========================= */

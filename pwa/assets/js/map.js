@@ -158,32 +158,21 @@ document.querySelectorAll(".marker").forEach(marker => {
     const type = marker.dataset.type;
 
     /* --------------------------
-       SERVICE POPUP
+       SERVICE POPUP (oude data)
     -------------------------- */
     if (type === "service") {
-
-      const now = new Date();
-      const hour = now.getHours();
-      const isOpen = hour >= 12 && hour < 23;
 
       document.getElementById("popup-title").innerText = marker.dataset.title;
       document.getElementById("popup-status").innerText = "";
 
-      // LIVE BADGE = OPEN / DICHT
-      const liveBadge = document.querySelector(".live-badge");
-      liveBadge.innerText = isOpen ? "OPEN" : "DICHT";
-      liveBadge.style.display = "inline-block";
+      document.getElementById("popup-current").innerText = marker.dataset.current || "";
+      document.getElementById("popup-next").innerText = marker.dataset.next || "";
 
-      // CURRENT = Openingstijden
-      document.getElementById("popup-current").innerText =
-        "Opening Hours: 12:00 – 23:00";
-
-      // NEXT = niet voor services
-      document.getElementById("popup-next").innerText = "";
+      document.querySelector(".popup-image").style.display = "none";
       document.querySelector(".popup-next").style.display = "none";
 
-      // Geen foto bij services
-      document.querySelector(".popup-image").style.display = "none";
+      const liveBadge = document.querySelector(".live-badge");
+      liveBadge.style.display = "none";
 
       updateFavoriteStatus(marker.dataset.title);
       setupFavoriteButtons(marker.dataset.title);
@@ -389,6 +378,7 @@ micBtn?.addEventListener("click", () => {
   micBtn.style.color = "#ff5545";
   setTimeout(() => micBtn.style.color = "", 800);
 });
+
 
 /* =========================================================
    GPS FOLLOW
