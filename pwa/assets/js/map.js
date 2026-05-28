@@ -1,5 +1,5 @@
 // ==============================
-// SUPER SMOOTH PINCH + PAN ENGINE (YOUR ORIGINAL WORKING VERSION)
+// SUPER SMOOTH PINCH + PAN ENGINE
 // ==============================
 
 const viewport = document.getElementById("map-container");
@@ -71,6 +71,7 @@ function applyTransform() {
   clampPan();
   inner.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
 
+  // markers blijven altijd even groot
   document.querySelectorAll(".marker, .user-marker").forEach(m => {
     m.style.transform = `translate(-50%, -50%) scale(${1 / scale})`;
   });
@@ -151,7 +152,7 @@ viewport.addEventListener("pointermove", (e) => {
 });
 
 // ==============================
-// POPUP OPEN
+// POPUP LOGIC (STAGE + SERVICE)
 // ==============================
 
 const popup = document.getElementById("popup-card");
@@ -159,15 +160,75 @@ const popup = document.getElementById("popup-card");
 document.querySelectorAll(".marker").forEach(marker => {
   marker.addEventListener("click", (e) => {
     e.stopPropagation();
-    document.getElementById("popup-title").innerText = marker.dataset.title;
-    document.getElementById("popup-current").innerText = marker.dataset.current;
-    document.getElementById("popup-next").innerText = marker.dataset.next;
-    popup.classList.remove("hidden");
+
+    const type = marker.dataset.type;
+
+    // ==========================
+    // STAGE POPUP (1–4)
+    // ==========================
+    if (type === "stage") {
+
+      // Titel
+      document.getElementById("popup-title").innerText = marker.dataset.title;
+
+      // Ondertekst blijft "Festival Area"
+      document.getElementById("popup-status").innerText = "Festival Area";
+
+      // Acts
+      document.getElementById("popup-current").innerText = marker.dataset.current;
+      document.getElementById("popup-next").innerText = marker.dataset.next;
+
+      // LIVE badge
+      const liveBadge = document.querySelector(".live-badge");
+      liveBadge.innerText = "LIVE";
+      liveBadge.style.display = "inline-block";
+
+      // Stage elementen tonen
+      document.querySelector(".popup-next").style.display = "block";
+      document.querySelector(".popup-image").style.display = "block";
+
+      popup.classList.remove("hidden");
+      return;
+    }
+
+// ==========================
+// SERVICE POPUP (WC, Bar, etc.)
+// ==========================
+if (type === "service") {
+
+  const now = new Date();
+  const hour = now.getHours();
+  const isOpen = hour >= 12 && hour < 23;
+
+  // Titel
+  document.getElementById("popup-title").innerText = marker.dataset.title;
+
+  // Onder de titel → leeg (geen OPEN meer)
+  document.getElementById("popup-status").innerText = "";
+
+  // LIVE badge → OPEN / DICHT
+  const liveBadge = document.querySelector(".live-badge");
+  liveBadge.innerText = isOpen ? "OPEN" : "DICHT";
+  liveBadge.style.display = "inline-block";
+
+  // Current → Opening Hours
+  document.getElementById("popup-current").innerText = "Opening Hours: 12:00 – 23:00";
+
+  // Next verbergen
+  document.querySelector(".popup-next").style.display = "none";
+
+  // Foto verbergen
+  document.querySelector(".popup-image").style.display = "none";
+
+  popup.classList.remove("hidden");
+}
+
   });
 });
 
+
 // ==============================
-// POPUP CLOSE (SAFE FOR PINCH)
+// POPUP CLOSE
 // ==============================
 
 viewport.addEventListener("pointerup", (e) => {
@@ -179,7 +240,7 @@ viewport.addEventListener("pointerup", (e) => {
 });
 
 // ==============================
-// REAL GPS FOLLOW + MY LOCATION BUTTON
+// GPS FOLLOW
 // ==============================
 
 const userMarker = document.querySelector(".user-marker");
@@ -240,7 +301,7 @@ navigator.geolocation.watchPosition(
 );
 
 // ==============================
-// MY LOCATION BUTTON (ZOOM + CENTER)
+// MY LOCATION BUTTON
 // ==============================
 
 document.getElementById("my-location")?.addEventListener("click", () => {

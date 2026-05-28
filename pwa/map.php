@@ -43,10 +43,11 @@
             <!-- USER LOCATION -->
             <div class="user-marker"></div>
 
-            <!-- MARKERS -->
+            <!-- STAGES (1–4, type=stage) -->
             <div
-                class="marker"
-                style="left:18%; top:67%;"
+                class="marker marker-large"
+                data-type="stage"
+                style="left:21%; top:63%;"
                 data-title="Ponton"
                 data-current="Main Act Live"
                 data-next="DJ Nova">
@@ -54,8 +55,9 @@
             </div>
 
             <div
-                class="marker"
-                style="left:50%; top:48%;"
+                class="marker marker-large"
+                data-type="stage"
+                style="left:54%; top:46%;"
                 data-title="The Lake"
                 data-current="Unknown Talent"
                 data-next="Luna Beats">
@@ -63,8 +65,9 @@
             </div>
 
             <div
-                class="marker"
-                style="left:68%; top:40%;"
+                class="marker marker-large"
+                data-type="stage"
+                style="left:69%; top:39%;"
                 data-title="The Club"
                 data-current="Comedy Show"
                 data-next="Stand-up Live">
@@ -72,30 +75,206 @@
             </div>
 
             <div
-                class="marker"
-                style="left:88%; top:12%;"
+                class="marker marker-large"
+                data-type="stage"
+                style="left:90%; top:17.2%;"
                 data-title="Hangar"
                 data-current="Techno Set"
                 data-next="House Session">
                 <img src="assets/svg/marker_stage4_hangar.svg" class="marker-icon">
             </div>
 
+            <!-- EHBO -->
             <div
                 class="marker"
+                data-type="service"
+                data-open="true"
                 style="left:18%; top:31%;"
-                data-title="Hangar"
-                data-current="Techno Set"
-                data-next="House Session">
+                data-title="EHBO">
                 <img src="assets/svg/marker_first_aid.svg" class="marker-icon">
             </div>
 
+            <!-- ETEN -->
+            <div
+                class="marker"
+                data-type="service"
+                data-open="true"
+                style="left:12%; top:62%;"
+                data-title="Eten">
+                <img src="assets/svg/marker_food.svg" class="marker-icon">
+            </div>
 
+            <div
+                class="marker"
+                data-type="service"
+                data-open="true"
+                style="left:35.3%; top:44%;"
+                data-title="Eten">
+                <img src="assets/svg/marker_food.svg" class="marker-icon">
+            </div>
 
+            <!-- IJS -->
+            <div
+                class="marker"
+                data-type="service"
+                data-open="true"
+                style="left:27%; top:66.4%;"
+                data-title="IJs">
+                <img src="assets/svg/marker_ice_cream.svg" class="marker-icon">
+            </div>
+
+            <div
+                class="marker"
+                data-type="service"
+                data-open="true"
+                style="left:38.7%; top:41.4%;"
+                data-title="IJs">
+                <img src="assets/svg/marker_ice_cream.svg" class="marker-icon">
+            </div>
+
+            <div
+                class="marker"
+                data-type="service"
+                data-open="true"
+                style="left:62.5%; top:33.4%;"
+                data-title="IJs">
+                <img src="assets/svg/marker_ice_cream.svg" class="marker-icon">
+            </div>
+
+            <div
+                class="marker"
+                data-type="service"
+                data-open="true"
+                style="left:83.4%; top:18%;"
+                data-title="IJs">
+                <img src="assets/svg/marker_ice_cream.svg" class="marker-icon">
+            </div>
+
+            <!-- DRINKEN -->
+            <div
+                class="marker"
+                data-type="service"
+                data-open="true"
+                style="left:11.6%; top:73.3%;"
+                data-title="Bar">
+                <img src="assets/svg/marker_bar.svg" class="marker-icon">
+            </div>
+
+            <div
+                class="marker"
+                data-type="service"
+                data-open="true"
+                style="left:51%; top:41%;"
+                data-title="Bar">
+                <img src="assets/svg/marker_bar.svg" class="marker-icon">
+            </div>
+
+            <div
+                class="marker"
+                data-type="service"
+                data-open="true"
+                style="left:72%; top:28.8%;"
+                data-title="Bar">
+                <img src="assets/svg/marker_bar.svg" class="marker-icon">
+            </div>
+
+            <div
+                class="marker"
+                data-type="service"
+                data-open="true"
+                style="left:81%; top:28%;"
+                data-title="Bar">
+                <img src="assets/svg/marker_bar.svg" class="marker-icon">
+            </div>
+
+            <!-- KLEDING -->
+            <div
+                class="marker"
+                data-type="service"
+                data-open="true"
+                style="left:31.7%; top:39%;"
+                data-title="Merchandise">
+                <img src="assets/svg/marker_merchandise.svg" class="marker-icon">
+            </div>
+
+            <div
+                class="marker"
+                data-type="service"
+                data-open="true"
+                style="left:18%; top:78.7%;"
+                data-title="Merchandise">
+                <img src="assets/svg/marker_merchandise.svg" class="marker-icon">
+            </div>
+
+            <div
+                class="marker"
+                data-type="service"
+                data-open="true"
+                style="left:65%; top:39%;"
+                data-title="Merchandise">
+                <img src="assets/svg/marker_merchandise.svg" class="marker-icon">
+            </div>
+
+            <!-- KLUISJES -->
+            <div
+                class="marker"
+                data-type="service"
+                data-open="true"
+                style="left:24%; top:82.4%;"
+                data-title="Lockers">
+                <img src="assets/svg/marker_locker.svg" class="marker-icon">
+            </div>
+
+            <div
+                class="marker"
+                data-type="service"
+                data-open="true"
+                style="left:30.4%; top:81.5%;"
+                data-title="Lockers">
+                <img src="assets/svg/marker_locker.svg" class="marker-icon">
+            </div>
+
+            <!-- WC -->
+            <div
+                class="marker"
+                data-type="service"
+                data-open="true"
+                style="left:7.7%; top:78.7%;"
+                data-title="WC">
+                <img src="assets/svg/marker_toilet.svg" class="marker-icon">
+            </div>
+
+            <div
+                class="marker"
+                data-type="service"
+                data-open="true"
+                style="left:49%; top:27.5%;"
+                data-title="WC">
+                <img src="assets/svg/marker_toilet.svg" class="marker-icon">
+            </div>
+
+            <div
+                class="marker"
+                data-type="service"
+                data-open="true"
+                style="left:93%; top:25.4%;"
+                data-title="WC">
+                <img src="assets/svg/marker_toilet.svg" class="marker-icon">
+            </div>
+
+            <!-- IN/UIT GANG -->
+            <div
+                class="marker marker-largee"
+                data-type="service"
+                data-open="true"
+                style="left:69%; top:84.5%;"
+                data-title="Entrance / Exit">
+                <img src="assets/svg/marker_entrance_exit.svg" class="marker-icon">
+            </div>
 
         </div>
 
     </div>
-
 
     <!-- CONTROLS -->
     <div class="map-controls">
@@ -136,11 +315,8 @@
                 <div class="popup-top">
 
                     <div>
-                        <h2 id="popup-title">
-                            Stage
-                        </h2>
-
-                        <p>Festival Area</p>
+                        <h2 id="popup-title">Stage</h2>
+                        <p id="popup-status">Festival Area</p>
                     </div>
 
                     <span class="live-badge">
@@ -230,5 +406,4 @@
 <script src="assets/js/map.js"></script>
 
 </body>
-
 </html>
