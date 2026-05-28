@@ -12,7 +12,8 @@
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Sansation:wght@300;400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    
     <!-- CSS -->
     <link rel="stylesheet" href="/love-u-festival/pwa/assets/css/global.css">
     <link rel="stylesheet" href="/love-u-festival/pwa/assets/css/home.css">

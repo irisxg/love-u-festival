@@ -12,77 +12,75 @@
 
 <main id="map-wrapper">
 
-    <!-- SEARCH -->
-    <div class="search-container">
+<!-- SEARCH -->
+<div class="search-container">
 
-        <span class="material-symbols-outlined search-icon">
-            search
-        </span>
+    <span class="material-symbols-outlined search-icon">
+        search
+    </span>
 
-        <input
-            type="text"
-            placeholder="Zoek een podium of bar...">
+    <input
+        type="text"
+        id="search-input"
+        placeholder="Zoek een podium of bar...">
 
-        <span class="material-symbols-outlined mic-icon">
-            mic
-        </span>
+    <span class="material-symbols-outlined mic-icon" id="voice-search">
+        mic
+    </span>
 
-    </div>
+</div>
 
-    <!-- MAP CONTAINER -->
-    <div id="map-container">
 
-        <div id="map-content">
+<!-- MAP CONTAINER -->
+<div id="map-container">
 
-            <!-- MAP IMAGE (SVG als IMG, niet OBJECT) -->
-            <img
-                id="festival-map"
-                src="assets/svg/festival-map.svg"
-                alt="Festival Map">
+    <div id="map-content">
 
-            <!-- USER LOCATION -->
-            <div class="user-marker"></div>
+        <!-- MAP IMAGE -->
+        <img
+            id="festival-map"
+            src="assets/svg/festival-map.svg"
+            alt="Festival Map">
 
-            <!-- STAGES (1–4, type=stage) -->
-            <div
-                class="marker marker-large"
-                data-type="stage"
-                style="left:21%; top:63%;"
-                data-title="Ponton"
-                data-current="Main Act Live"
-                data-next="DJ Nova">
-                <img src="assets/svg/marker_stage1_ponton.svg" class="marker-icon">
-            </div>
+        <!-- USER LOCATION -->
+        <div class="user-marker"></div>
 
-            <div
-                class="marker marker-large"
-                data-type="stage"
-                style="left:54%; top:46%;"
-                data-title="The Lake"
-                data-current="Unknown Talent"
-                data-next="Luna Beats">
-                <img src="assets/svg/marker_stage2_the_lake.svg" class="marker-icon">
-            </div>
+        <!-- MARKER 1 — POTON -->
+        <div
+            class="marker marker-large"
+            data-type="stage"
+            data-stage="Poton"
+            style="left:21%; top:63%;">
+            <img src="assets/svg/marker_stage1_ponton.svg" class="marker-icon">
+        </div>
 
-            <div
-                class="marker marker-large"
-                data-type="stage"
-                style="left:69%; top:39%;"
-                data-title="The Club"
-                data-current="Comedy Show"
-                data-next="Stand-up Live">
-                <img src="assets/svg/marker_stage3_the_club.svg" class="marker-icon">
-            </div>
+        <!-- MARKER 2 — THE LAKE -->
+        <div
+            class="marker marker-large"
+            data-type="stage"
+            data-stage="The Lake"
+            style="left:54%; top:46%;">
+            <img src="assets/svg/marker_stage2_the_lake.svg" class="marker-icon">
+        </div>
 
-            <div
-                class="marker marker-large"
-                data-type="stage"
-                style="left:90%; top:17.2%;"
-                data-title="Hangar"
-                data-current="Techno Set"
-                data-next="House Session">
-                <img src="assets/svg/marker_stage4_hangar.svg" class="marker-icon">
-            </div>
+        <!-- MARKER 3 — THE CLUB -->
+        <div
+            class="marker marker-large"
+            data-type="stage"
+            data-stage="The Club"
+            style="left:69%; top:39%;">
+            <img src="assets/svg/marker_stage3_the_club.svg" class="marker-icon">
+        </div>
+
+        <!-- MARKER 4 — HANGGAR -->
+        <div
+            class="marker marker-large"
+            data-type="stage"
+            data-stage="Hanggar"
+            style="left:90%; top:17.2%;">
+            <img src="assets/svg/marker_stage4_hangar.svg" class="marker-icon">
+        </div>
+
 
             <!-- EHBO -->
             <div
@@ -276,93 +274,103 @@
 
     </div>
 
-    <!-- CONTROLS -->
-    <div class="map-controls">
+<!-- CONTROLS (RECHTSBOVEN) -->
+<div class="map-controls">
 
-        <button id="zoom-in">
-            <span class="material-symbols-outlined">
-                +
-            </span>
+    <!-- FAVORIETEN OVERZICHT (WÉL klikbaar) -->
+    <button id="favorites-list-btn" class="map-star-btn">
+        <span class="material-symbols-outlined">star</span>
+    </button>
+
+    <!-- MY LOCATION -->
+    <button id="my-location" class="primary-btn">
+        <span class="material-symbols-outlined">my_location</span>
+    </button>
+
+</div>
+
+
+<!-- POPUP -->
+<div id="popup-card" class="hidden">
+
+    <div class="popup-content">
+
+        <div class="popup-image">
+            <img
+                src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?q=80&w=1200"
+                alt="">
+        </div>
+
+        <div class="popup-info">
+
+            <div class="popup-top">
+
+                <div>
+                    <h2 id="popup-title">Stage</h2>
+                    <p id="popup-status"></p>
+                </div>
+
+                <span class="live-badge">LIVE</span>
+
+            </div>
+
+            <div class="popup-times">
+    <span class="now-label">NOW</span>
+    <span id="popup-current"></span>
+</div>
+
+
+            <div class="popup-next">
+                Next:
+                <span id="popup-next">Next Artist</span>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- POPUP BUTTONS -->
+    <div class="popup-actions">
+
+        <!-- FAVORITE ACTIE KNOP (ROOD) -->
+        <button class="favorite-btn" id="favorite-toggle">
+            FAVORITE
         </button>
 
-        <button id="zoom-out">
-            <span class="material-symbols-outlined">
-                -
-            </span>
-        </button>
-
-        <button id="my-location" class="primary-btn">
-            <span class="material-symbols-outlined">
-                my_location
+        <!-- FAVORITE STATUS KNOP (STER) — NIET klikbaar -->
+        <button class="favorite-status-btn" id="favorite-status">
+            <span class="material-symbols-outlined" id="favorite-status-icon">
+                star_border
             </span>
         </button>
 
     </div>
 
-    <!-- POPUP -->
-    <div id="popup-card" class="hidden">
+</div>
 
-        <div class="popup-content">
 
-            <div class="popup-image">
-                <img
-                    src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?q=80&w=1200"
-                    alt="">
-            </div>
+<!-- FAVORIETEN POPUP (APART, BUITEN popup-card) -->
+<div id="favorites-popup" class="hidden">
 
-            <div class="popup-info">
+    <div class="favorites-window">
 
-                <div class="popup-top">
-
-                    <div>
-                        <h2 id="popup-title">Stage</h2>
-                        <p id="popup-status">Festival Area</p>
-                    </div>
-
-                    <span class="live-badge">
-                        LIVE
-                    </span>
-
-                </div>
-
-                <div class="popup-times">
-
-                    <span class="material-symbols-outlined">
-                        schedule
-                    </span>
-
-                    <span id="popup-current">
-                        Current Act
-                    </span>
-
-                </div>
-
-                <div class="popup-next">
-                    Next:
-                    <span id="popup-next">
-                        Next Artist
-                    </span>
-                </div>
-
-            </div>
-
+        <div class="favorites-header">
+            <h3>⭐ Favorieten</h3>
+            <button id="favorites-close">
+                <span class="material-symbols-outlined">close</span>
+            </button>
         </div>
 
-        <div class="popup-actions">
-
-            <button class="route-btn">
-                BRENG ME ERHEEN
-            </button>
-
-            <button class="favorite-btn">
-                <span class="material-symbols-outlined">
-                    favorite
-                </span>
-            </button>
-
+        <div id="favorites-list" class="favorites-list">
+            <!-- Wordt gevuld via JS -->
         </div>
 
     </div>
+
+</div>
+
+
+
 
 </main>
 
@@ -403,7 +411,9 @@
 
 <!-- JS -->
 <script src="assets/js/darkmode.js"></script>
-<script src="assets/js/map.js"></script>
+<script type="module" src="assets/js/schedule.js"></script>
+<script type="module" src="assets/js/map.js"></script>
 
 </body>
+
 </html>

@@ -1,6 +1,8 @@
-// ==============================
-// SUPER SMOOTH PINCH + PAN ENGINE
-// ==============================
+import { scheduleData, getCurrentAct, getNextAct } from "./schedule.js";
+
+/* =========================================================
+   SUPER SMOOTH PINCH + PAN ENGINE
+========================================================= */
 
 const viewport = document.getElementById("map-container");
 const inner = document.getElementById("map-content");
@@ -8,7 +10,6 @@ const inner = document.getElementById("map-content");
 let scale = 1;
 let tx = 0;
 let ty = 0;
-
 let minScale = 1;
 
 const pointers = new Map();
@@ -17,9 +18,9 @@ let gesture = null;
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 const dist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
 
-// ==============================
-// MIN SCALE
-// ==============================
+/* =========================================================
+   MIN SCALE
+========================================================= */
 
 function updateMinScale() {
   const mapW = inner.offsetWidth;
@@ -33,9 +34,9 @@ function updateMinScale() {
   if (scale < minScale) scale = minScale;
 }
 
-// ==============================
-// CLAMP PAN
-// ==============================
+/* =========================================================
+   CLAMP PAN
+========================================================= */
 
 function clampPan() {
   const mapW = inner.offsetWidth * scale;
@@ -50,36 +51,29 @@ function clampPan() {
   const minX = vpW - mapW;
   const minY = vpH - mapH;
 
-  if (mapW <= vpW) {
-    tx = (vpW - mapW) / 2;
-  } else {
-    tx = clamp(tx, minX, maxX);
-  }
+  if (mapW <= vpW) tx = (vpW - mapW) / 2;
+  else tx = clamp(tx, minX, maxX);
 
-  if (mapH <= vpH) {
-    ty = (vpH - mapH) / 2;
-  } else {
-    ty = clamp(ty, minY, maxY);
-  }
+  if (mapH <= vpH) ty = (vpH - mapH) / 2;
+  else ty = clamp(ty, minY, maxY);
 }
 
-// ==============================
-// APPLY TRANSFORM
-// ==============================
+/* =========================================================
+   APPLY TRANSFORM
+========================================================= */
 
 function applyTransform() {
   clampPan();
   inner.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
 
-  // markers blijven altijd even groot
   document.querySelectorAll(".marker, .user-marker").forEach(m => {
     m.style.transform = `translate(-50%, -50%) scale(${1 / scale})`;
   });
 }
 
-// ==============================
-// ZOOM AT POINT
-// ==============================
+/* =========================================================
+   ZOOM AT POINT
+========================================================= */
 
 function zoomAt(cx, cy, factor) {
   const newScale = clamp(scale * factor, minScale, 4);
@@ -94,9 +88,9 @@ function zoomAt(cx, cy, factor) {
   applyTransform();
 }
 
-// ==============================
-// WHEEL ZOOM
-// ==============================
+/* =========================================================
+   WHEEL ZOOM
+========================================================= */
 
 viewport.addEventListener("wheel", (e) => {
   e.preventDefault();
@@ -104,9 +98,9 @@ viewport.addEventListener("wheel", (e) => {
   zoomAt(e.clientX - r.left, e.clientY - r.top, e.deltaY < 0 ? 1.12 : 1 / 1.12);
 }, { passive: false });
 
-// ==============================
-// POINTER EVENTS (PAN + PINCH)
-// ==============================
+/* =========================================================
+   POINTER EVENTS (PAN + PINCH)
+========================================================= */
 
 viewport.addEventListener("pointerdown", (e) => {
   viewport.setPointerCapture(e.pointerId);
@@ -151,9 +145,9 @@ viewport.addEventListener("pointermove", (e) => {
   });
 });
 
-// ==============================
-// POPUP LOGIC (STAGE + SERVICE)
-// ==============================
+/* =========================================================
+   POPUP LOGIC (STAGE + SERVICE)
+========================================================= */
 
 const popup = document.getElementById("popup-card");
 
@@ -163,85 +157,242 @@ document.querySelectorAll(".marker").forEach(marker => {
 
     const type = marker.dataset.type;
 
-    // ==========================
-    // STAGE POPUP (1–4)
-    // ==========================
-    if (type === "stage") {
+    /* --------------------------
+       SERVICE POPUP
+    -------------------------- */
+    if (type === "service") {
 
-      // Titel
+      const now = new Date();
+      const hour = now.getHours();
+      const isOpen = hour >= 12 && hour < 23;
+
       document.getElementById("popup-title").innerText = marker.dataset.title;
+      document.getElementById("popup-status").innerText = "";
 
-      // Ondertekst blijft "Festival Area"
-      document.getElementById("popup-status").innerText = "Festival Area";
-
-      // Acts
-      document.getElementById("popup-current").innerText = marker.dataset.current;
-      document.getElementById("popup-next").innerText = marker.dataset.next;
-
-      // LIVE badge
+      // LIVE BADGE = OPEN / DICHT
       const liveBadge = document.querySelector(".live-badge");
-      liveBadge.innerText = "LIVE";
+      liveBadge.innerText = isOpen ? "OPEN" : "DICHT";
       liveBadge.style.display = "inline-block";
 
-      // Stage elementen tonen
-      document.querySelector(".popup-next").style.display = "block";
-      document.querySelector(".popup-image").style.display = "block";
+      // CURRENT = Openingstijden
+      document.getElementById("popup-current").innerText =
+        "Opening Hours: 12:00 – 23:00";
+
+      // NEXT = niet voor services
+      document.getElementById("popup-next").innerText = "";
+      document.querySelector(".popup-next").style.display = "none";
+
+      // Geen foto bij services
+      document.querySelector(".popup-image").style.display = "none";
+
+      updateFavoriteStatus(marker.dataset.title);
+      setupFavoriteButtons(marker.dataset.title);
 
       popup.classList.remove("hidden");
       return;
     }
 
-// ==========================
-// SERVICE POPUP (WC, Bar, etc.)
-// ==========================
-if (type === "service") {
+    /* --------------------------
+       STAGE POPUP (JSON)
+    -------------------------- */
+    if (type === "stage") {
 
-  const now = new Date();
-  const hour = now.getHours();
-  const isOpen = hour >= 12 && hour < 23;
+      const stage = marker.dataset.stage;
+      const day = "Zaterdag";
 
-  // Titel
-  document.getElementById("popup-title").innerText = marker.dataset.title;
+      const current = getCurrentAct(stage, day);
+      const next = getNextAct(stage, day);
 
-  // Onder de titel → leeg (geen OPEN meer)
-  document.getElementById("popup-status").innerText = "";
+      document.getElementById("popup-title").innerText = stage;
+      document.getElementById("popup-status").innerText = "Festival Area";
 
-  // LIVE badge → OPEN / DICHT
-  const liveBadge = document.querySelector(".live-badge");
-  liveBadge.innerText = isOpen ? "OPEN" : "DICHT";
-  liveBadge.style.display = "inline-block";
+      document.getElementById("popup-current").innerText =
+        current ? `${current.name} (${current.start}–${current.end})` : "Geen act bezig";
 
-  // Current → Opening Hours
-  document.getElementById("popup-current").innerText = "Opening Hours: 12:00 – 23:00";
+      document.getElementById("popup-next").innerText =
+        next ? `${next.name} (${next.start}–${next.end})` : "—";
 
-  // Next verbergen
-  document.querySelector(".popup-next").style.display = "none";
+      if (current?.type === "artist") {
+        document.querySelector(".popup-image img").src = current.image;
+        document.querySelector(".popup-image").style.display = "block";
+      } else {
+        document.querySelector(".popup-image").style.display = "none";
+      }
 
-  // Foto verbergen
-  document.querySelector(".popup-image").style.display = "none";
+      const liveBadge = document.querySelector(".live-badge");
+      liveBadge.innerText = current ? "LIVE" : "";
+      liveBadge.style.display = current ? "inline-block" : "none";
 
-  popup.classList.remove("hidden");
-}
+      updateFavoriteStatus(stage);
+      setupFavoriteButtons(stage);
 
+      popup.classList.remove("hidden");
+    }
   });
 });
 
+/* =========================================================
+   FAVORIETEN SYSTEEM
+========================================================= */
 
-// ==============================
-// POPUP CLOSE
-// ==============================
+let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
 
-viewport.addEventListener("pointerup", (e) => {
+function isFavorite(title) {
+  return favorites.includes(title);
+}
+
+function toggleFavorite(title) {
+  if (isFavorite(title)) {
+    favorites = favorites.filter(t => t !== title);
+  } else {
+    favorites.push(title);
+  }
+  localStorage.setItem("favorites", JSON.stringify(favorites));
+}
+
+/* =========================================================
+   UPDATE FAVORIET ICON
+========================================================= */
+
+function updateFavoriteStatus(title) {
+  const icon = document.getElementById("favorite-status-icon");
+  const btn = document.getElementById("favorite-status");
+
+  if (!icon || !btn) return;
+
+  if (isFavorite(title)) {
+    icon.innerText = "star";
+    btn.classList.add("active");
+  } else {
+    icon.innerText = "star_border";
+    btn.classList.remove("active");
+  }
+}
+
+/* =========================================================
+   FAVORITE BUTTON LOGIC
+========================================================= */
+
+function setupFavoriteButtons(title) {
+  document.getElementById("favorite-toggle").onclick = () => {
+    toggleFavorite(title);
+    updateFavoriteStatus(title);
+  };
+
+  document.getElementById("favorite-status").style.pointerEvents = "none";
+}
+
+/* =========================================================
+   FAVORIETEN POPUP
+========================================================= */
+
+const favPopup = document.getElementById("favorites-popup");
+const favList = document.getElementById("favorites-list");
+const favClose = document.getElementById("favorites-close");
+
+document.getElementById("favorites-list-btn").addEventListener("click", () => {
+
+  favList.innerHTML = "";
+
+  if (favorites.length === 0) {
+    favList.innerHTML = `<p>Je hebt nog geen favorieten.</p>`;
+  } else {
+    favorites.forEach(f => {
+      favList.innerHTML += `
+        <div class="favorite-item">
+            <span>${f}</span>
+            <span class="material-symbols-outlined">star</span>
+        </div>
+      `;
+    });
+  }
+
+  favPopup.classList.remove("hidden");
+});
+
+favClose.addEventListener("click", () => {
+  favPopup.classList.add("hidden");
+});
+
+/* =========================================================
+   POPUP CLOSE
+========================================================= */
+
+document.addEventListener("pointerdown", (e) => {
+
   if (popup.classList.contains("hidden")) return;
-  if (pointers.size > 0) return;
-  if (e.target.closest(".marker")) return;
+
   if (popup.contains(e.target)) return;
+
+  if (e.target.closest(".marker")) return;
+
+  if (e.target.closest(".map-controls")) return;
+
   popup.classList.add("hidden");
 });
 
-// ==============================
-// GPS FOLLOW
-// ==============================
+/* =========================================================
+   SEARCH FUNCTION
+========================================================= */
+
+const searchInput = document.getElementById("search-input");
+
+function runSearch(query) {
+  document.querySelectorAll(".marker").forEach(marker => {
+    const label =
+      (marker.dataset.stage || marker.dataset.title || "").toLowerCase();
+    marker.style.display = label.includes(query.toLowerCase()) ? "block" : "none";
+  });
+}
+
+searchInput?.addEventListener("input", () => {
+  runSearch(searchInput.value);
+});
+
+/* =========================================================
+   VOICE SEARCH
+========================================================= */
+
+const micBtn = document.getElementById("voice-search");
+
+let recognition = null;
+
+if ("webkitSpeechRecognition" in window || "SpeechRecognition" in window) {
+
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  recognition = new SpeechRecognition();
+
+  recognition.lang = "nl-NL";
+  recognition.continuous = false;
+  recognition.interimResults = false;
+
+  recognition.onresult = (event) => {
+    const transcript = event.results[0][0].transcript;
+    searchInput.value = transcript;
+    runSearch(transcript);
+  };
+
+  recognition.onerror = (event) => {
+    console.warn("Microfoon fout:", event.error);
+  };
+
+}
+
+micBtn?.addEventListener("click", () => {
+  if (!recognition) {
+    alert("Je browser ondersteunt spraakherkenning niet.");
+    return;
+  }
+
+  recognition.start();
+
+  micBtn.style.color = "#ff5545";
+  setTimeout(() => micBtn.style.color = "", 800);
+});
+
+/* =========================================================
+   GPS FOLLOW
+========================================================= */
 
 const userMarker = document.querySelector(".user-marker");
 
@@ -300,9 +451,9 @@ navigator.geolocation.watchPosition(
   { enableHighAccuracy: true, maximumAge: 500, timeout: 10000 }
 );
 
-// ==============================
-// MY LOCATION BUTTON
-// ==============================
+/* =========================================================
+   MY LOCATION BUTTON
+========================================================= */
 
 document.getElementById("my-location")?.addEventListener("click", () => {
   followUser = true;
@@ -321,9 +472,9 @@ document.getElementById("my-location")?.addEventListener("click", () => {
   applyTransform();
 });
 
-// ==============================
-// INIT
-// ==============================
+/* =========================================================
+   INIT
+========================================================= */
 
 updateMinScale();
 applyTransform();

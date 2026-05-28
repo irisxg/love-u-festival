@@ -77,27 +77,21 @@ body{
 }
 
 /* =========================
-   MARKERS (SVG ICONS)
+   MARKERS
 ========================= */
 
 .marker{
   position:absolute;
-
   width:34px;
   height:34px;
-
   transform:translate(-50%, -50%);
   cursor:pointer;
-
   z-index:50;
-
   display:flex;
   align-items:center;
   justify-content:center;
-
   background:none;
   border:none;
-
   transition: transform .25s ease-out;
 }
 
@@ -106,14 +100,6 @@ body{
   height:100%;
   object-fit:contain;
   pointer-events:none;
-}
-
-.marker {
-  cursor: grab;
-}
-
-.marker.dragging {
-  cursor: grabbing;
 }
 
 .marker-large {
@@ -130,26 +116,16 @@ body{
 
 .user-marker{
   position:absolute;
-
   width:20px;
   height:20px;
-
   border-radius:50%;
-
   background:#ff2b2b;
-
   transform:translate(-50%, -50%);
-
   box-shadow:
     0 0 0 10px rgba(255,43,43,.18),
     0 0 25px rgba(255,43,43,.9);
-
   z-index:100;
-
-  transition:
-    left .25s ease-out,
-    top .25s ease-out,
-    transform .25s ease-out;
+  transition:left .25s ease-out, top .25s ease-out, transform .25s ease-out;
 }
 
 /* =========================
@@ -161,20 +137,14 @@ body{
   top:20px;
   left:20px;
   right:20px;
-
   z-index:1000;
-
   display:flex;
   align-items:center;
   gap:12px;
-
   padding:14px 18px;
-
   border-radius:999px;
-
   background:rgba(30,30,30,.72);
   backdrop-filter:blur(24px);
-
   border:1px solid rgba(255,255,255,.06);
 }
 
@@ -183,7 +153,6 @@ body{
   border:none;
   outline:none;
   background:transparent;
-
   color:#fff;
   font-size:15px;
 }
@@ -210,9 +179,7 @@ body{
   position:absolute;
   top:110px;
   right:20px;
-
   z-index:1000;
-
   display:flex;
   flex-direction:column;
   gap:12px;
@@ -221,24 +188,16 @@ body{
 .map-controls button{
   width:52px;
   height:52px;
-
   border:none;
   border-radius:16px;
-
   background:rgba(30,30,30,.78);
   backdrop-filter:blur(20px);
-
   color:#fff;
-
   display:flex;
   align-items:center;
   justify-content:center;
-
   cursor:pointer;
-
-  box-shadow:
-    0 4px 18px rgba(0,0,0,.25);
-
+  box-shadow:0 4px 18px rgba(0,0,0,.25);
   transition:.2s ease;
 }
 
@@ -259,16 +218,11 @@ body{
   left:20px;
   right:20px;
   bottom:125px;
-
   z-index:1200;
-
   overflow:hidden;
-
   border-radius:24px;
-
   background:rgba(30,30,30,.88);
   backdrop-filter:blur(24px);
-
   border:1px solid rgba(255,255,255,.05);
 }
 
@@ -285,10 +239,8 @@ body{
 .popup-image{
   width:100px;
   height:100px;
-
   border-radius:18px;
   overflow:hidden;
-
   flex-shrink:0;
 }
 
@@ -320,19 +272,15 @@ body{
 
 .live-badge{
   padding:4px 12px;
-
   border-radius:999px;
-
   background:rgba(255,215,0,.12);
   color:gold;
-
   font-size:12px;
   font-weight:700;
 }
 
 .popup-times{
   margin-top:14px;
-
   display:flex;
   align-items:center;
   gap:8px;
@@ -343,59 +291,136 @@ body{
   color:#aaa;
 }
 
-.marker-open {
-  filter: drop-shadow(0 0 12px rgba(0,255,0,0.8));
-}
-
-.marker-closed {
-  filter: drop-shadow(0 0 12px rgba(255,0,0,0.8));
-  opacity: 0.6;
-}
-
 /* =========================
    POPUP BUTTONS
 ========================= */
 
 .popup-actions{
   display:flex;
+  justify-content:center;
   gap:12px;
   padding:20px;
 }
 
-.route-btn{
-  flex:1;
-  height:52px;
-
-  border:none;
-  border-radius:14px;
-
-  background:#ff5545;
-  color:#fff;
-
-  font-weight:700;
-  cursor:pointer;
-}
-
+/* Rode FAVORITE knop */
 .favorite-btn{
-  width:52px;
-
+  background:#F03228;
   border:none;
+  padding:10px 84px;
   border-radius:14px;
-
-  background:rgba(255,255,255,.08);
-  color:#fff;
-
+  color:white;
+  font-weight:700;
+  font-size:15px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   cursor:pointer;
 }
 
-.marker {
-  cursor: grab;
+/* Donkere ster-knop */
+.favorite-status-btn{
+  width:52px;
+  height:52px;
+  border:none;
+  border-radius:14px;
+  background:rgba(255,255,255,.08);
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
 }
 
-.marker.dragging {
-  cursor: grabbing;
+#favorite-status-icon{
+  font-size:28px;
+  color:white;
 }
 
+.favorite-status-btn.active {
+  background: white !important;
+}
+
+.favorite-status-btn.active .material-symbols-outlined {
+  color: black !important;
+}
+
+.now-label {
+  font-weight: 700;
+  color: #ff5545;
+  margin-right: 6px;
+}
+
+/* =========================
+   FAVORIETEN POPUP
+========================= */
+
+#favorites-popup{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.55);
+  backdrop-filter:blur(4px);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:99999;
+}
+
+#favorites-popup.hidden{
+  display:none;
+}
+
+.favorites-window{
+  width:85%;
+  max-width:380px;
+  background:#111;
+  border-radius:16px;
+  padding:20px;
+  color:white;
+  box-shadow:0 0 25px rgba(0,0,0,0.4);
+}
+
+.favorites-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.favorites-header h3{
+  margin:0;
+  font-size:20px;
+}
+
+#favorites-close{
+  background:none;
+  border:none;
+  color:white;
+  font-size:26px;
+}
+
+.favorites-list{
+  margin-top:15px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.favorite-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:#222;
+  padding:12px 14px;
+  border-radius:10px;
+}
+
+.favorite-item span{
+  font-size:16px;
+}
+
+.favorite-item .material-symbols-outlined{
+  font-size:22px;
+  color:#FFD700;
+}
 
 /* =========================
    MOBILE FIXES
