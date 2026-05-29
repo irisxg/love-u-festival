@@ -72,7 +72,7 @@ self.addEventListener('install', (event) => {
   );
 });
 
-// Activate Event - Cleans up old caches
+// Activate Event - Cleans up old caches and claims clients
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keyList) => {
@@ -92,31 +92,11 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
 
-  // Let navigation requests (or PHP pages) use Network-First, so updates are visible instantly
+  // Handle page navigations and PHP files (Network-First, falling back to Cache)
   if (event.request.mode === 'navigate' || event.request.url.includes('.php')) {
     event.respondWith(
       fetch(event.request)
         .then((response) => {
-          const responseClone = response.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, responseClone);
-          });
-          return response;
-        })
-        .catch(() => {
-          return caches.match(event.request).then((cachedResponse) => {
-            return cachedResponse || caches.match('./index.php');
-          });
-        })
-    );
-  } else {
-    // Assets use Cache-First, falling back to network
-    event.respondWith(
-      caches.match(event.request).then((cachedResponse) => {
-        if (cachedResponse) {
-          return cachedResponse;
-        }
-        return fetch(event.request).then((response) => {
           if (response && response.status === 200) {
             const responseClone = response.clone();
             caches.open(CACHE_NAME).then((cache) => {
@@ -124,7 +104,39 @@ self.addEventListener('fetch', (event) => {
             });
           }
           return response;
-        });
+        })
+        .catch(() => {
+          // If network fails (completely offline), match the request in cache
+          return caches.match(event.request).then((cachedResponse) => {
+            if (cachedResponse) {
+              return cachedResponse;
+            }
+            // Fallback to index if page is not in cache
+            return caches.match('./index.php') || caches.match('./');
+          });
+        })
+    );
+  } else {
+    // Handle static assets (Cache-First, falling back to Network)
+    event.respondWith(
+      caches.match(event.request).then((cachedResponse) => {
+        if (cachedResponse) {
+          return cachedResponse;
+        }
+        return fetch(event.request)
+          .then((response) => {
+            if (response && response.status === 200) {
+              const responseClone = response.clone();
+              caches.open(CACHE_NAME).then((cache) => {
+                cache.put(event.request, responseClone);
+              });
+            }
+            return response;
+          })
+          .catch(() => {
+            // Silence failed asset fetches when offline to prevent console errors
+            return new Response('Asset offline not available', { status: 404 });
+          });
       })
     );
   }
