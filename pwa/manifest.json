@@ -1,0 +1,24 @@
+{
+  "name": "❤️U Festival",
+  "short_name": "❤️U",
+  "description": "De hartslag van de zomer — het festival voor Utrechtse studenten.",
+  "start_url": "index.php",
+  "display": "standalone",
+  "background_color": "#f9f9f9",
+  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "assets/img/logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/img/logo-512.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ]
+}
