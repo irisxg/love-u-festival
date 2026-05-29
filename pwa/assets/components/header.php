@@ -17,7 +17,7 @@
     <!-- PWA Manifest & Icons -->
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="assets/img/logo.png">
-    <link rel="apple-touch-icon" href="assets/img/logo.png">
+    <link rel="apple-touch-icon" href="assets/img/logo-pwa.jpg">
     <meta name="theme-color" content="#000000">
 
     <!-- CSS -->

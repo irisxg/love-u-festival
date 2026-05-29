@@ -4,7 +4,7 @@
   "description": "De hartslag van de zomer — het festival voor Utrechtse studenten.",
   "start_url": "index.php",
   "display": "standalone",
-  "background_color": "#f9f9f9",
+  "background_color": "#000000",
   "theme_color": "#000000",
   "orientation": "portrait-primary",
   "icons": [
@@ -15,10 +15,10 @@
       "purpose": "any"
     },
     {
-      "src": "assets/img/logo-512.jpg",
-      "sizes": "512x512",
+      "src": "assets/img/logo-pwa.jpg",
+      "sizes": "1024x1024",
       "type": "image/jpeg",
-      "purpose": "any maskable"
+      "purpose": "any"
     }
   ]
 }

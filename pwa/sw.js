@@ -18,9 +18,42 @@ const ASSETS_TO_CACHE = [
   './assets/js/programma.js',
   './assets/js/schedule.js',
   './assets/data/artists.json',
+  
+  // Logos & General images
   './assets/img/logo.png',
   './assets/img/logo-512.jpg',
-  './assets/img/hangar.png'
+  './assets/img/logo-pwa.jpg',
+  './assets/img/hangar.png',
+  './assets/img/qr_code.png',
+  
+  // Artist images
+  './assets/img/armin_van_buuren.png',
+  './assets/img/chefspecial.png',
+  './assets/img/de_staat.png',
+  './assets/img/dotan.png',
+  './assets/img/eefje.png',
+  './assets/img/froukje.png',
+  './assets/img/kensington.png',
+  './assets/img/martin_garrix.png',
+  './assets/img/navarone.png',
+  './assets/img/spinvis.png',
+  './assets/img/within_temptation.png',
+  
+  // SVG Map assets
+  './assets/svg/festival-map.svg',
+  './assets/svg/legenda.svg',
+  './assets/svg/marker_bar.svg',
+  './assets/svg/marker_entrance_exit.svg',
+  './assets/svg/marker_first_aid.svg',
+  './assets/svg/marker_food.svg',
+  './assets/svg/marker_ice_cream.svg',
+  './assets/svg/marker_locker.svg',
+  './assets/svg/marker_merchandise.svg',
+  './assets/svg/marker_stage1_ponton.svg',
+  './assets/svg/marker_stage2_the_lake.svg',
+  './assets/svg/marker_stage3_the_club.svg',
+  './assets/svg/marker_stage4_hangar.svg',
+  './assets/svg/marker_toilet.svg'
 ];
 
 // Install Event - Pre-caches essential assets
@@ -28,7 +61,6 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       console.log('[Service Worker] Precaching app shell...');
-      // Use map or catch individual errors so caching continues even if some files fail
       return Promise.allSettled(
         ASSETS_TO_CACHE.map((url) => {
           return cache.add(url).catch((err) => {
