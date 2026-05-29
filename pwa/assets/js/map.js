@@ -445,6 +445,14 @@ navigator.geolocation.watchPosition(
   { enableHighAccuracy: true, maximumAge: 500, timeout: 10000 }
 );
 
+navigator.geolocation.watchPosition(
+  handleGps,
+  (err) => {
+    alert("GPS fout: " + err.code + " / " + err.message);
+  },
+  { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 }
+);
+
 /* =========================================================
    MY LOCATION BUTTON
 ========================================================= */
