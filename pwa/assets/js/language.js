@@ -128,7 +128,8 @@ const translations = {
     "Next:": "Next:",
     "FAVORITE": "FAVORIET",
     "Festival Area": "Festival Terrein",
-    "Next Artist": "Volgende Artiest"
+    "Next Artist": "Volgende Artiest",
+    "Je bent momenteel offline. Sommige gegevens kunnen verouderd zijn.": "Je bent momenteel offline. Sommige gegevens kunnen verouderd zijn."
   },
   en: {
     // Header & Navigation
@@ -255,7 +256,8 @@ const translations = {
     "Next:": "Next:",
     "FAVORITE": "FAVORITE",
     "Festival Area": "Festival Area",
-    "Next Artist": "Next Artist"
+    "Next Artist": "Next Artist",
+    "Je bent momenteel offline. Sommige gegevens kunnen verouderd zijn.": "You are currently offline. Some data may be outdated."
   }
 };
 
@@ -360,6 +362,7 @@ function initLanguage() {
 
   updateFlagStyles(currentLang);
   translateDOM(currentLang);
+  updateOnlineStatus();
 
   observer = new MutationObserver(() => {
     translateDOM(currentLang);
@@ -367,6 +370,35 @@ function initLanguage() {
 
   observer.observe(document.body, { childList: true, subtree: true, characterData: true });
 }
+
+function updateOnlineStatus() {
+  let banner = document.getElementById("offline-banner");
+  if (!banner) {
+    banner = document.createElement("div");
+    banner.id = "offline-banner";
+    banner.style.cssText = "display: none; background: #F03228; color: white; text-align: center; padding: 8px; font-size: 14px; position: sticky; top: 57px; z-index: 40; width: 100%; box-shadow: 0 2px 4px rgba(0,0,0,0.1); justify-content: center; align-items: center; gap: 6px; font-family: 'Sansation', sans-serif;";
+    banner.innerHTML = `
+      <span class="material-icons" style="font-size: 18px; color: white;">wifi_off</span>
+      <span id="offline-banner-text">Je bent momenteel offline. Sommige gegevens kunnen verouderd zijn.</span>
+    `;
+    const header = document.querySelector(".app-header");
+    if (header) {
+      header.parentNode.insertBefore(banner, header.nextSibling);
+    } else {
+      document.body.insertBefore(banner, document.body.firstChild);
+    }
+  }
+
+  if (navigator.onLine) {
+    banner.style.display = "none";
+  } else {
+    banner.style.display = "flex";
+    translateDOM(currentLang);
+  }
+}
+
+window.addEventListener("online", updateOnlineStatus);
+window.addEventListener("offline", updateOnlineStatus);
 
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", initLanguage);
