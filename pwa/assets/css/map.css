@@ -441,14 +441,16 @@ html.dark .favorite-status-btn.active .material-symbols-outlined{
   font-size:20px;
 }
 
-#favorites-close{
-  background:none;
-  border:none;
-  color:white;
-  font-size:26px;
-  cursor:pointer;
-  line-height:1;
+.favorites-close-btn {
+  background: none;
+  border: none;
+  font-size: 22px;
+  font-weight: 700;
+  cursor: pointer;
+  color: inherit;
+  padding: 4px 8px;
 }
+
 
 /* LIST */
 .favorites-list{
@@ -720,6 +722,138 @@ body.light-mode .info-window h3 {
     transform:translateY(0);
   }
 }
+
+#service-popup {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 125px;
+  z-index: 1200;
+  overflow: hidden;
+  border-radius: 24px;
+  background: rgba(30,30,30,.88);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255,255,255,.05);
+}
+
+.service-badge {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  background: rgba(255,255,255,.15);
+  color: white;
+}
+
+/* ============================================
+   SERVICE POPUP — EIGEN STYLING
+============================================ */
+
+/* BASIS (DARK MODE DEFAULT) */
+#service-popup {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 125px;
+  z-index: 1200;
+  overflow: hidden;
+  border-radius: 24px;
+
+  background: rgba(30,30,30,.88);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255,255,255,.05);
+
+  animation: popupFade .25s ease;
+}
+
+/* LIGHT MODE */
+html:not(.dark) #service-popup {
+  background: #fff;
+  border: 1px solid rgba(0,0,0,.08);
+}
+
+/* TITEL */
+#service-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: inherit;
+}
+
+/* OPENING HOURS */
+#service-hours {
+  color: #9b9b9b;
+  margin-top: 2px;
+  font-size: 14px;
+}
+
+html:not(.dark) #service-hours {
+  color: #666;
+}
+
+/* STATUS TEKST */
+#service-status {
+  font-size: 16px;
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+/* BADGE (OPEN / DICHT) */
+.service-badge {
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  display: inline-block;
+}
+
+/* BADGE — DARK MODE */
+html.dark .service-badge {
+  background: rgba(255,255,255,.12);
+  color: #fff;
+}
+
+/* BADGE — LIGHT MODE */
+html:not(.dark) .service-badge {
+  background: rgba(0,0,0,.08);
+  color: #111;
+}
+
+/* ============================================
+   FAVORIETEN KNOP — LIGHT MODE
+============================================ */
+
+html:not(.dark) #service-favorite-status {
+  background: #fff !important;
+}
+
+html:not(.dark) #service-favorite-status-icon {
+  color: #111 !important;
+}
+
+/* ============================================
+   FAVORIETEN KNOP — ACTIVE STATE
+============================================ */
+
+/* LIGHT MODE — ACTIVE */
+html:not(.dark) #service-favorite-status.active {
+  background: #000 !important;
+}
+
+html:not(.dark) #service-favorite-status.active .material-symbols-outlined {
+  color: #fff !important;
+}
+
+/* DARK MODE — ACTIVE */
+html.dark #service-favorite-status.active {
+  background: #fff !important;
+}
+
+html.dark #service-favorite-status.active .material-symbols-outlined {
+  color: #000 !important;
+}
+
+
+
 
 /* =========================
    MOBILE FIXES

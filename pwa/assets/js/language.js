@@ -10,7 +10,7 @@ const translations = {
     "Info": "Info",
     "Programma": "Programma",
     "Plattegrond": "Plattegrond",
-    
+
     // Index / Home page
     "Welkom bij ❤️U": "Welkom bij ❤️U",
     "De hartslag van de zomer": "De hartslag van de zomer",
@@ -129,7 +129,25 @@ const translations = {
     "FAVORITE": "FAVORIET",
     "Festival Area": "Festival Terrein",
     "Next Artist": "Volgende Artiest",
-    "Je bent momenteel offline. Sommige gegevens kunnen verouderd zijn.": "Je bent momenteel offline. Sommige gegevens kunnen verouderd zijn."
+    "Je bent momenteel offline. Sommige gegevens kunnen verouderd zijn.": "Je bent momenteel offline. Sommige gegevens kunnen verouderd zijn.",
+    "Opening Hours: 12:00 – 23:00": "Openingstijden: 12:00 – 23:00",
+    "Nu geopend": "Nu geopend",
+    "Nu gesloten": "Nu gesloten",
+    "Openingstijden": "Openingstijden",
+    "OPEN": "OPEN",
+    "DICHT": "DICHT",
+    "Entrance / Exit": "Ingang / Uitgang",
+    "Lockers": "Kluisjes",
+    "Bar": "Bar",
+    "Eten": "Eten",
+    "IJs": "IJs",
+    "WC": "WC",
+    "Merchandise": "Merchandise",
+    "EHBO": "EHBO",
+    "FAVORITE": "FAVORIET",
+    "Opening Hours": "Openingstijden",
+    "Festival Area": "Festivalterrein"
+
   },
   en: {
     // Header & Navigation
@@ -257,7 +275,24 @@ const translations = {
     "FAVORITE": "FAVORITE",
     "Festival Area": "Festival Area",
     "Next Artist": "Next Artist",
-    "Je bent momenteel offline. Sommige gegevens kunnen verouderd zijn.": "You are currently offline. Some data may be outdated."
+    "Je bent momenteel offline. Sommige gegevens kunnen verouderd zijn.": "You are currently offline. Some data may be outdated.",
+    "Opening Hours: 12:00 – 23:00": "Opening Hours: 12:00 – 23:00",
+    "Nu geopend": "Open now",
+    "Nu gesloten": "Closed now",
+    "Openingstijden": "Opening Hours",
+    "OPEN": "OPEN",
+    "DICHT": "CLOSED",
+    "Entrance / Exit": "Entrance / Exit",
+    "Lockers": "Lockers",
+    "Bar": "Bar",
+    "Eten": "Food",
+    "IJs": "Ice Cream",
+    "WC": "Toilets",
+    "Merchandise": "Merchandise",
+    "EHBO": "First Aid",
+    "FAVORITE": "FAVORITE",
+    "Opening Hours": "Opening Hours",
+    "Festival Area": "Festival Area"
   }
 };
 
@@ -267,7 +302,7 @@ let observer = null;
 function updateFlagStyles(lang) {
   const btnNl = document.getElementById("lang-btn-nl");
   const btnEn = document.getElementById("lang-btn-en");
-  
+
   if (btnNl && btnEn) {
     if (lang === "nl") {
       btnNl.style.opacity = "1";
@@ -295,7 +330,7 @@ function translateDOM(lang) {
         for (const key of Object.keys(translations.nl)) {
           const nlVal = translations.nl[key];
           const enVal = translations.en[key];
-          
+
           if (originalText === nlVal || originalText === enVal) {
             const targetVal = lang === "nl" ? nlVal : enVal;
             if (originalText !== targetVal) {

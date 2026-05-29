@@ -274,126 +274,151 @@
     </div>
 
     <!-- CONTROLS (RECHTSBOVEN) -->
-    <div class="map-controls">
+<div class="map-controls">
 
-        <!-- MAP -->
-        <button id="info-popup-btn" class="map-info-btn">
-            <span class="material-symbols-outlined">map</span>
-        </button>
+<!-- MAP -->
+<button id="info-popup-btn" class="map-info-btn">
+    <span class="material-symbols-outlined">map</span>
+</button>
 
-        <!-- FAVORIETEN -->
-        <button id="favorites-list-btn" class="map-star-btn">
-            <span class="material-symbols-outlined">star</span>
-        </button>
+<!-- FAVORIETEN -->
+<button id="favorites-list-btn" class="map-star-btn">
+    <span class="material-symbols-outlined">star</span>
+</button>
 
-        <!-- GPS -->
-        <button id="my-location" class="primary-btn">
-            <span class="material-symbols-outlined">my_location</span>
-        </button>
+<!-- GPS -->
+<button id="my-location" class="primary-btn">
+    <span class="material-symbols-outlined">my_location</span>
+</button>
 
-    </div>
+</div>
 
+<!-- SERVICE POPUP (eigen styling maar matching met popup-card) -->
+<div id="service-popup" class="popup-card hidden">
 
-    <div id="popup-card" class="hidden">
+    <div class="popup-content">
 
-        <div class="popup-content">
+        <div class="popup-info">
 
-            <div class="popup-image">
-                <img
-                    src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?q=80&w=1200"
-                    alt="">
-            </div>
+        <div class="popup-top">
 
-            <div class="popup-info">
+<div>
+    <h2 id="service-title"></h2>
+    <p id="service-hours"></p> <!-- leeg -->
+</div>
 
-                <div class="popup-top">
+<span class="service-badge" id="service-badge"></span>
 
-                    <div>
-                        <h2 id="popup-title">Stage</h2>
-                        <p id="popup-status"></p>
-                    </div>
+</div>
 
-                    <span class="live-badge">LIVE</span>
+<div class="popup-times">
+<span id="service-status">Opening Hours: 12:00 – 23:00</span>
+</div>
 
-                </div>
-
-                <div class="popup-times">
-                    <span class="now-label">NOW</span>
-                    <span id="popup-current"></span>
-                </div>
-
-
-                <div class="popup-next">
-                    Next:
-                    <span id="popup-next">Next Artist</span>
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="popup-actions">
-            <button class="favorite-btn" id="favorite-toggle">
-                FAVORITE
-            </button>
-            <button class="favorite-status-btn" id="favorite-status">
-                <span class="material-symbols-outlined" id="favorite-status-icon">
-                    star_border
-                </span>
-            </button>
 
         </div>
 
     </div>
+    <div class="popup-actions">
+    <button class="favorite-btn" id="service-favorite-toggle">FAVORITE</button>
+    <button class="favorite-status-btn" id="service-favorite-status">
+        <span class="material-symbols-outlined" id="service-favorite-status-icon">star_border</span>
+    </button>
+</div>
 
-    <div id="favorites-popup" class="hidden">
 
-        <div class="favorites-window">
+</div>
 
-            <div class="favorites-header">
-                <h3>⭐ Favorieten</h3>
-                <button id="favorites-close">
-                    <span class="material-symbols-outlined">close</span>
-                </button>
+</div>
+
+
+<!-- STAGE POPUP -->
+<div id="popup-card" class="hidden">
+
+<div class="popup-content">
+
+    <div class="popup-image">
+        <img src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?q=80&w=1200" alt="">
+    </div>
+
+    <div class="popup-info">
+
+        <div class="popup-top">
+
+            <div>
+                <h2 id="popup-title">Stage</h2>
+                <p id="popup-status"></p>
             </div>
 
-            <div id="favorites-list" class="favorites-list">
-            </div>
+            <span class="live-badge">LIVE</span>
 
+        </div>
+
+        <div class="popup-times">
+            <span class="now-label">NOW</span>
+            <span id="popup-current"></span>
+        </div>
+
+        <div class="popup-next">
+            Next:
+            <span id="popup-next">Next Artist</span>
         </div>
 
     </div>
 
-    <!-- INFO POPUP -->
+</div>
 
-    <div id="info-popup" class="hidden">
-        <div class="info-window">
-            <div class="info-header">
-                <h3>Legenda</h3>
-            </div>
-            <div class="info-content">
-                <div class="info-image">
-                    <img src="assets/svg/legenda.svg" alt="Legenda">
-                </div>
-            </div>
+<div class="popup-actions">
+    <button class="favorite-btn" id="favorite-toggle">FAVORITE</button>
+    <button class="favorite-status-btn" id="favorite-status">
+        <span class="material-symbols-outlined" id="favorite-status-icon">star_border</span>
+    </button>
+</div>
 
-            <div class="info-actions">
-                <button id="info-ok-btn">
-                    sluiten
-                </button>
-            </div>
+</div>
 
+<!-- FAVORIETEN POPUP -->
+<div id="favorites-popup" class="hidden">
+
+<div class="favorites-window">
+
+    <div class="favorites-header">
+        <h3>⭐ Favorieten</h3>
+        <button id="favorites-close" class="favorites-close-btn">✕</button>
+
+    </div>
+
+    <div id="favorites-list" class="favorites-list"></div>
+
+</div>
+
+</div>
+
+<!-- INFO POPUP -->
+<div id="info-popup" class="hidden">
+<div class="info-window">
+    <div class="info-header">
+        <h3>Legenda</h3>
+    </div>
+    <div class="info-content">
+        <div class="info-image">
+            <img src="assets/svg/legenda.svg" alt="Legenda">
+        </div>
+    </div>
+
+    <div class="info-actions">
+        <button id="info-ok-btn">sluiten</button>
+    </div>
+</div>
+</div>
 
 </main>
 
-
 <?php include __DIR__ . '/assets/components/footer.php'; ?>
-
 
 <script src="assets/js/darkmode.js"></script>
 <script type="module" src="assets/js/schedule.js"></script>
 <script type="module" src="assets/js/map.js"></script>
 
 </body>
-
 </html>

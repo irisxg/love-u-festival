@@ -164,26 +164,44 @@ document.querySelectorAll(".marker").forEach(marker => {
     /* --------------------------
        SERVICE POPUP (oude data)
     -------------------------- */
-    if (type === "service") {
+if (type === "service") {
 
-      document.getElementById("popup-title").innerText = marker.dataset.title;
-      document.getElementById("popup-status").innerText = "";
+    const servicePopup = document.getElementById("service-popup");
 
-      document.getElementById("popup-current").innerText = marker.dataset.current || "";
-      document.getElementById("popup-next").innerText = marker.dataset.next || "";
+    const now = new Date();
+    const hour = now.getHours();
+    const isOpen = hour >= 12 && hour < 23;
 
-      document.querySelector(".popup-image").style.display = "none";
-      document.querySelector(".popup-next").style.display = "none";
+    // Titel
+    document.getElementById("service-title").innerText = marker.dataset.title;
 
-      const liveBadge = document.querySelector(".live-badge");
-      liveBadge.style.display = "none";
+    // Opening hours
+    
+document.getElementById("service-status").innerText = "Opening Hours: 12:00 – 23:00";
 
-      updateFavoriteStatus(marker.dataset.title);
-      setupFavoriteButtons(marker.dataset.title);
 
-      popup.classList.remove("hidden");
-      return;
-    }
+    // Badge rechtsboven
+    const badge = document.getElementById("service-badge");
+    badge.innerText = isOpen ? "OPEN" : "DICHT";
+    badge.style.background = isOpen ? "rgba(0,255,0,.25)" : "rgba(255,0,0,.25)";
+    badge.style.color = isOpen ? "#00ff00" : "#ff4444";
+
+    // Status onder opening hours
+    document.getElementById("service-hours").innerText = "";
+
+    // Favorieten
+    updateFavoriteStatus(marker.dataset.title);
+    setupFavoriteButtons(marker.dataset.title);
+
+    // Popup tonen
+    servicePopup.classList.remove("hidden");
+
+    // Stage popup verbergen
+    popup.classList.add("hidden");
+
+    return;
+}
+
 
     /* --------------------------
        STAGE POPUP (JSON)
@@ -308,21 +326,33 @@ favClose.addEventListener("click", () => {
 });
 
 /* =========================================================
-   POPUP CLOSE
+   POPUP CLOSE (STAGE + SERVICE)
 ========================================================= */
 
 document.addEventListener("pointerdown", (e) => {
 
-  if (popup.classList.contains("hidden")) return;
+  const servicePopup = document.getElementById("service-popup");
 
+  // Als beide popups verborgen zijn → niks doen
+  if (popup.classList.contains("hidden") && servicePopup.classList.contains("hidden")) return;
+
+  // Klik binnen stage-popup → niet sluiten
   if (popup.contains(e.target)) return;
 
+  // Klik binnen service-popup → niet sluiten
+  if (servicePopup.contains(e.target)) return;
+
+  // Klik op marker → niet sluiten
   if (e.target.closest(".marker")) return;
 
+  // Klik op map-controls → niet sluiten
   if (e.target.closest(".map-controls")) return;
 
+  // Sluit beide popups
   popup.classList.add("hidden");
+  servicePopup.classList.add("hidden");
 });
+
 
 /* =========================================================
    SEARCH FUNCTION
