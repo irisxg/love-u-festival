@@ -66,9 +66,13 @@ function applyTransform() {
   clampPan();
   inner.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
 
-  document.querySelectorAll(".marker, .user-marker").forEach(m => {
+  document.querySelectorAll(".marker").forEach(m => {
     m.style.transform = `translate(-50%, -50%) scale(${1 / scale})`;
   });
+  
+  // USER MARKER MAG NIET GESCHAALD WORDEN
+  userMarker.style.transform = "translate(-50%, -50%)";
+  
 }
 
 /* =========================================================

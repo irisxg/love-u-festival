@@ -88,37 +88,29 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch Event - Dynamic caching strategy
+// Fetch Event - Stale-While-Revalidate caching strategy
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
 
-  // Handle page navigations and PHP files (Network-First, falling back to Cache)
-  if (event.request.mode === 'navigate' || event.request.url.includes('.php')) {
-    event.respondWith(
-      fetch(event.request)
-        .then((response) => {
-          if (response && response.status === 200) {
-            const responseClone = response.clone();
+  event.respondWith(
+    caches.match(event.request, { ignoreSearch: true }).then((cachedResponse) => {
+      // Initiate background fetch to update the cache (Revalidate)
+      const fetchPromise = fetch(event.request)
+        .then((networkResponse) => {
+          if (networkResponse && networkResponse.status === 200) {
+            const responseClone = networkResponse.clone();
             caches.open(CACHE_NAME).then((cache) => {
               cache.put(event.request, responseClone);
             });
           }
-          return response;
+          return networkResponse;
         })
-        .catch(() => {
-          // If network fails (completely offline), match the request in cache (ignoring query strings)
-          return caches.match(event.request, { ignoreSearch: true }).then((cachedResponse) => {
-            if (cachedResponse) {
-              return cachedResponse;
-            }
-            
-            // Fallback to index.php if the specific page is not found in cache
+        .catch((err) => {
+          // If offline and request is page navigation, provide fallback
+          if (event.request.mode === 'navigate' || event.request.destination === 'document' || event.request.url.includes('.php')) {
             return caches.match('index.php', { ignoreSearch: true }).then((indexResponse) => {
-              if (indexResponse) {
-                return indexResponse;
-              }
+              if (indexResponse) return indexResponse;
               
-              // Extreme fallback: Return a custom friendly offline HTML response so the browser never crashes
               return new Response(
                 `<!DOCTYPE html>
                 <html lang="nl">
@@ -134,8 +126,8 @@ self.addEventListener('fetch', (event) => {
                 </head>
                 <body>
                   <h1>❤️U Festival</h1>
-                  <p>Je bent offline en deze pagina is helaas nog niet opgeslagen op je apparaat.</p>
-                  <p><a href="index.php">Ga terug naar de Startpagina</a></p>
+                  <p>Je bent momenteel offline en deze pagina is nog niet opgeslagen.</p>
+                  <p><a href="index.php">Ga terug naar de startpagina</a></p>
                 </body>
                 </html>`,
                 {
@@ -144,31 +136,14 @@ self.addEventListener('fetch', (event) => {
                 }
               );
             });
-          });
-        })
-    );
-  } else {
-    // Handle static assets (Cache-First, falling back to Network)
-    event.respondWith(
-      caches.match(event.request, { ignoreSearch: true }).then((cachedResponse) => {
-        if (cachedResponse) {
-          return cachedResponse;
-        }
-        return fetch(event.request)
-          .then((response) => {
-            if (response && response.status === 200) {
-              const responseClone = response.clone();
-              caches.open(CACHE_NAME).then((cache) => {
-                cache.put(event.request, responseClone);
-              });
-            }
-            return response;
-          })
-          .catch(() => {
-            // Return 404 for failed asset fetches when offline to prevent console crashes
-            return new Response('Asset offline not available', { status: 404 });
-          });
-      })
-    );
-  }
+          }
+          
+          // Return 404 for failed asset fetches when offline
+          return new Response('Asset offline not available', { status: 404 });
+        });
+
+      // Return cached response instantly, or wait for network fetch if not in cache
+      return cachedResponse || fetchPromise;
+    })
+  );
 });
