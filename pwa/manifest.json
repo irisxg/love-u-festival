@@ -2,7 +2,7 @@
   "name": "❤️U Festival",
   "short_name": "❤️U",
   "description": "De hartslag van de zomer — het festival voor Utrechtse studenten.",
-  "start_url": "index.php",
+  "start_url": "/love-u-festival/pwa/index.php",
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#000000",
