@@ -106,20 +106,51 @@ self.addEventListener('fetch', (event) => {
           return response;
         })
         .catch(() => {
-          // If network fails (completely offline), match the request in cache
-          return caches.match(event.request).then((cachedResponse) => {
+          // If network fails (completely offline), match the request in cache (ignoring query strings)
+          return caches.match(event.request, { ignoreSearch: true }).then((cachedResponse) => {
             if (cachedResponse) {
               return cachedResponse;
             }
-            // Fallback to index if page is not in cache
-            return caches.match('./index.php') || caches.match('./');
+            
+            // Fallback to index.php if the specific page is not found in cache
+            return caches.match('index.php', { ignoreSearch: true }).then((indexResponse) => {
+              if (indexResponse) {
+                return indexResponse;
+              }
+              
+              // Extreme fallback: Return a custom friendly offline HTML response so the browser never crashes
+              return new Response(
+                `<!DOCTYPE html>
+                <html lang="nl">
+                <head>
+                  <meta charset="UTF-8">
+                  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                  <title>❤️U Festival - Offline</title>
+                  <style>
+                    body { font-family: sans-serif; text-align: center; padding: 50px; background: #121414; color: white; }
+                    h1 { color: #F03228; }
+                    a { color: #247BA0; text-decoration: none; font-weight: bold; }
+                  </style>
+                </head>
+                <body>
+                  <h1>❤️U Festival</h1>
+                  <p>Je bent offline en deze pagina is helaas nog niet opgeslagen op je apparaat.</p>
+                  <p><a href="index.php">Ga terug naar de Startpagina</a></p>
+                </body>
+                </html>`,
+                {
+                  status: 200,
+                  headers: { 'Content-Type': 'text/html; charset=utf-8' }
+                }
+              );
+            });
           });
         })
     );
   } else {
     // Handle static assets (Cache-First, falling back to Network)
     event.respondWith(
-      caches.match(event.request).then((cachedResponse) => {
+      caches.match(event.request, { ignoreSearch: true }).then((cachedResponse) => {
         if (cachedResponse) {
           return cachedResponse;
         }
@@ -134,7 +165,7 @@ self.addEventListener('fetch', (event) => {
             return response;
           })
           .catch(() => {
-            // Silence failed asset fetches when offline to prevent console errors
+            // Return 404 for failed asset fetches when offline to prevent console crashes
             return new Response('Asset offline not available', { status: 404 });
           });
       })
