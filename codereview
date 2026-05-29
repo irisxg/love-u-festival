@@ -1,0 +1,116 @@
+
+Ik kan hem lokaal draaien via http://localhost/love-u-festival/pwa/index.php 
+
+Het ziet er heel goed uit, 
+Paar verbeterpuntjes 
+
+Het belangrijkste is een map met de prompts. verder: 
+
+1. Gebruik Promises in plaats van setInterval (polling)
+Ik zag dat je in home.js en programma.js wacht tot de JSON-data geladen is met een setInterval:
+
+javascript
+
+
+const wait = setInterval(() => {
+    if (Object.keys(scheduleData).length > 0) {
+        clearInterval(wait);
+        // data renderen...
+    }
+}, 50);
+Dit werkt natuurlijk wel, maar het is eigenlijk een beetje een "anti-pattern" (polling). Het blijft constant tikken en dat vreet onnodig prestaties van de telefoon.
+
+Tip: Je kunt dit veel netter oplossen met Promises. Als je de fetch in schedule.js exporteert als een functie die een Promise teruggeeft, kun je die direct .then() meegeven in je andere bestanden.
+
+In schedule.js:
+javascript
+
+
+export let scheduleData = {};
+export const loadSchedule = () => {
+  return fetch("assets/data/artists.json")
+    .then(res => res.json())
+    .then(data => {
+      scheduleData = data;
+      return data;
+    });
+};
+In home.js of programma.js:
+javascript
+
+
+import { loadSchedule } from "./schedule.js";
+loadSchedule().then(() => {
+    // Dit start pas als de fetch écht klaar is!
+    renderFavorites();
+    renderProgramNow();
+    initWeatherNews();
+});
+2. Centraliseer je favorieten-systeem (DRY)
+Je hebt nu in home.js, programma.js en map.js losse stukken code staan om de favorieten uit de localStorage te halen, op te slaan en te toggelen. Als je straks de naam van de key wilt veranderen, moet je dat op drie plekken gaan aanpassen. Dat is niet echt DRY (Don't Repeat Yourself).
+
+Tip: Maak één los bestandje aan, bijvoorbeeld assets/js/favorites.js, en exporteer daar de functies die je nodig hebt:
+
+javascript
+
+
+export function getFavorites() {
+    return JSON.parse(localStorage.getItem("favorites") || "[]");
+}
+export function isFavorite(name) {
+    return getFavorites().includes(name);
+}
+export function toggleFavorite(name) {
+    let favorites = getFavorites();
+    if (favorites.includes(name)) {
+        favorites = favorites.filter(f => f !== name);
+    } else {
+        favorites.push(name);
+    }
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+    return favorites;
+}
+Nu kun je in al je andere Javascript-bestanden gewoon deze functies importeren en gebruiken. Dat scheelt een hoop dubbele code!
+
+3. Ruim Leaflet op
+In map.php laad je de Leaflet bibliotheek (CSS en JS) in van unpkg. Maar in map.js gebruik je Leaflet helemaal niet, omdat je zelf een hele vette pinch-to-pan engine hebt gebouwd op een SVG-afbeelding.
+
+Tip: Haal die Leaflet links in map.php weg. Dat scheelt weer onnodige laadtijd voor de PWA.
+
+4. Microfoon-indicator bij voice search
+Als je op de microfoon klikt bij het zoeken op de kaart, kleurt hij nu hardcoded 800ms rood met een setTimeout. Maar als de browser langer of korter luistert, klopt die timing visueel niet meer met wat de app doet.
+
+Tip: Koppel de kleur aan de echte events van de SpeechRecognition API. Dat voelt een stuk professioneler aan:
+
+javascript
+
+
+recognition.onstart = () => {
+  micBtn.style.color = "#ff5545"; // Rood als hij begint met luisteren
+};
+recognition.onend = () => {
+  micBtn.style.color = ""; // Weer normaal als hij klaar is
+};
+5. Absolute paden in PHP-includes
+In header.php link je naar je CSS met een absoluut pad vanaf de localhost root:
+
+html
+
+
+<link rel="stylesheet" href="/love-u-festival/pwa/assets/css/global.css">
+Dit werkt lokaal op je MAMP-server, maar als we dit project online gaan zetten op een echte server (die niet de map /love-u-festival/pwa/ gebruikt), breken al je stijlen.
+
+Tip: Maak de paden relatief of gebruik een PHP-variabele voor de base-url. Omdat je pagina's in dezelfde map staan, kun je hier gewoon assets/css/global.css van maken.
+
+6. Veiligheid en innerHTML
+Bij het tonen van de favorieten in de kaart (map.js) gebruik je innerHTML om de favorieten direct in de HTML te plakken:
+
+javascript
+
+
+favList.innerHTML += <span>${f}</span>;
+Mocht iemand ooit handmatig in de console een rare naam toevoegen aan de favorieten (zoals een stukje javascript code), dan kan dat uitgevoerd worden. Dit heet XSS (Cross-Site Scripting).
+
+Tip: Het is veiliger om elementen aan te maken met document.createElement() en de tekst erin te zetten via .textContent in plaats van .innerHTML. Dat zorgt ervoor dat de browser het altijd puur als tekst ziet en niet als HTML/code uitvoert.
+
+Conclusie: Veel moeite in gestopt en er is een heel mooi eindproduct uit gekomen
