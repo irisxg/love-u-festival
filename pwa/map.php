@@ -12,73 +12,73 @@
 
 <main id="map-wrapper">
 
-<!-- SEARCH -->
-<div class="search-container">
+    <!-- SEARCH -->
+    <div class="search-container">
 
-    <span class="material-symbols-outlined search-icon">
-        search
-    </span>
+        <span class="material-symbols-outlined search-icon">
+            search
+        </span>
 
-    <input
-        type="text"
-        id="search-input"
-        placeholder="Zoek een podium of bar...">
+        <input
+            type="text"
+            id="search-input"
+            placeholder="Zoek een podium of bar...">
 
-    <span class="material-symbols-outlined mic-icon" id="voice-search">
-        mic
-    </span>
+        <span class="material-symbols-outlined mic-icon" id="voice-search">
+            mic
+        </span>
 
-</div>
+    </div>
 
 
-<div id="map-container">
+    <div id="map-container">
 
-    <div id="map-content">
+        <div id="map-content">
 
-        <!-- MAP IMAGE -->
-        <img
-            id="festival-map"
-            src="assets/svg/festival-map.svg"
-            alt="Festival Map">
+            <!-- MAP IMAGE -->
+            <img
+                id="festival-map"
+                src="assets/svg/festival-map.svg"
+                alt="Festival Map">
 
-        <!-- USER LOCATION -->
-        <div class="user-marker"></div>
+            <!-- USER LOCATION -->
+            <div class="user-marker"></div>
 
-        <!-- MARKER 1 — POTON -->
-        <div
-            class="marker marker-large"
-            data-type="stage"
-            data-stage="Poton"
-            style="left:21%; top:63%;">
-            <img src="assets/svg/marker_stage1_ponton.svg" class="marker-icon">
-        </div>
+            <!-- MARKER 1 — POTON -->
+            <div
+                class="marker marker-large"
+                data-type="stage"
+                data-stage="Poton"
+                style="left:21%; top:63%;">
+                <img src="assets/svg/marker_stage1_ponton.svg" class="marker-icon">
+            </div>
 
-        <!-- MARKER 2 — THE LAKE -->
-        <div
-            class="marker marker-large"
-            data-type="stage"
-            data-stage="The Lake"
-            style="left:54%; top:46%;">
-            <img src="assets/svg/marker_stage2_the_lake.svg" class="marker-icon">
-        </div>
+            <!-- MARKER 2 — THE LAKE -->
+            <div
+                class="marker marker-large"
+                data-type="stage"
+                data-stage="The Lake"
+                style="left:54%; top:46%;">
+                <img src="assets/svg/marker_stage2_the_lake.svg" class="marker-icon">
+            </div>
 
-        <!-- MARKER 3 — THE CLUB -->
-        <div
-            class="marker marker-large"
-            data-type="stage"
-            data-stage="The Club"
-            style="left:69%; top:39%;">
-            <img src="assets/svg/marker_stage3_the_club.svg" class="marker-icon">
-        </div>
+            <!-- MARKER 3 — THE CLUB -->
+            <div
+                class="marker marker-large"
+                data-type="stage"
+                data-stage="The Club"
+                style="left:69%; top:39%;">
+                <img src="assets/svg/marker_stage3_the_club.svg" class="marker-icon">
+            </div>
 
-        <!-- MARKER 4 — HANGGAR -->
-        <div
-            class="marker marker-large"
-            data-type="stage"
-            data-stage="Hanggar"
-            style="left:90%; top:17.2%;">
-            <img src="assets/svg/marker_stage4_hangar.svg" class="marker-icon">
-        </div>
+            <!-- MARKER 4 — HANGGAR -->
+            <div
+                class="marker marker-large"
+                data-type="stage"
+                data-stage="Hanggar"
+                style="left:90%; top:17.2%;">
+                <img src="assets/svg/marker_stage4_hangar.svg" class="marker-icon">
+            </div>
 
 
             <!-- EHBO -->
@@ -273,91 +273,115 @@
 
     </div>
 
-<!-- CONTROLS (RECHTSBOVEN) -->
-<div class="map-controls">
+    <!-- CONTROLS (RECHTSBOVEN) -->
+    <div class="map-controls">
 
-    <button id="favorites-list-btn" class="map-star-btn">
-        <span class="material-symbols-outlined">star</span>
-    </button>
+        <!-- MAP -->
+        <button id="info-popup-btn" class="map-info-btn">
+            <span class="material-symbols-outlined">map</span>
+        </button>
 
-    <button id="my-location" class="primary-btn">
-        <span class="material-symbols-outlined">my_location</span>
-    </button>
+        <!-- FAVORIETEN -->
+        <button id="favorites-list-btn" class="map-star-btn">
+            <span class="material-symbols-outlined">star</span>
+        </button>
 
-</div>
+        <!-- GPS -->
+        <button id="my-location" class="primary-btn">
+            <span class="material-symbols-outlined">my_location</span>
+        </button>
+
+    </div>
 
 
-<div id="popup-card" class="hidden">
+    <div id="popup-card" class="hidden">
 
-    <div class="popup-content">
+        <div class="popup-content">
 
-        <div class="popup-image">
-            <img
-                src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?q=80&w=1200"
-                alt="">
-        </div>
+            <div class="popup-image">
+                <img
+                    src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?q=80&w=1200"
+                    alt="">
+            </div>
 
-        <div class="popup-info">
+            <div class="popup-info">
 
-            <div class="popup-top">
+                <div class="popup-top">
 
-                <div>
-                    <h2 id="popup-title">Stage</h2>
-                    <p id="popup-status"></p>
+                    <div>
+                        <h2 id="popup-title">Stage</h2>
+                        <p id="popup-status"></p>
+                    </div>
+
+                    <span class="live-badge">LIVE</span>
+
                 </div>
 
-                <span class="live-badge">LIVE</span>
-
-            </div>
-
-            <div class="popup-times">
-    <span class="now-label">NOW</span>
-    <span id="popup-current"></span>
-</div>
+                <div class="popup-times">
+                    <span class="now-label">NOW</span>
+                    <span id="popup-current"></span>
+                </div>
 
 
-            <div class="popup-next">
-                Next:
-                <span id="popup-next">Next Artist</span>
+                <div class="popup-next">
+                    Next:
+                    <span id="popup-next">Next Artist</span>
+                </div>
+
             </div>
 
         </div>
 
-    </div>
-
-    <div class="popup-actions">
-        <button class="favorite-btn" id="favorite-toggle">
-            FAVORITE
-        </button>
-        <button class="favorite-status-btn" id="favorite-status">
-            <span class="material-symbols-outlined" id="favorite-status-icon">
-                star_border
-            </span>
-        </button>
-
-    </div>
-
-</div>
-
-<div id="favorites-popup" class="hidden">
-
-    <div class="favorites-window">
-
-        <div class="favorites-header">
-            <h3>⭐ Favorieten</h3>
-            <button id="favorites-close">
-                <span class="material-symbols-outlined">close</span>
+        <div class="popup-actions">
+            <button class="favorite-btn" id="favorite-toggle">
+                FAVORITE
             </button>
-        </div>
+            <button class="favorite-status-btn" id="favorite-status">
+                <span class="material-symbols-outlined" id="favorite-status-icon">
+                    star_border
+                </span>
+            </button>
 
-        <div id="favorites-list" class="favorites-list">
         </div>
 
     </div>
 
-</div>
+    <div id="favorites-popup" class="hidden">
 
+        <div class="favorites-window">
 
+            <div class="favorites-header">
+                <h3>⭐ Favorieten</h3>
+                <button id="favorites-close">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+
+            <div id="favorites-list" class="favorites-list">
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- INFO POPUP -->
+
+    <div id="info-popup" class="hidden">
+        <div class="info-window">
+            <div class="info-header">
+                <h3>Legenda</h3>
+            </div>
+            <div class="info-content">
+                <div class="info-image">
+                    <img src="assets/svg/legenda.svg" alt="Legenda">
+                </div>
+            </div>
+
+            <div class="info-actions">
+                <button id="info-ok-btn">
+                    sluiten
+                </button>
+            </div>
 
 
 </main>

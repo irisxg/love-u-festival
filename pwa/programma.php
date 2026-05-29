@@ -28,7 +28,7 @@
 
     <!-- DAG 1 -->
     <section class="programma-grid day1 visible" id="day1-grid"></section>
-
+ 
     <!-- DAG 2 -->
     <section class="programma-grid day2" id="day2-grid"></section>
 

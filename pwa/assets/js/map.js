@@ -463,6 +463,54 @@ document.getElementById("my-location")?.addEventListener("click", () => {
 });
 
 /* =========================================================
+   INFO POPUP
+========================================================= */
+
+const infoPopup = document.getElementById("info-popup");
+
+const infoClose = document.getElementById("info-close");
+
+const infoOkBtn = document.getElementById("info-ok-btn");
+
+/* ========================================
+   OPEN INFO POPUP BUTTON
+======================================== */
+
+document.getElementById("info-popup-btn")?.addEventListener("click", () => {
+
+  infoPopup.classList.remove("hidden");
+
+});
+
+function closeInfoPopup() {
+
+  infoPopup.classList.add("hidden");
+
+}
+
+infoClose?.addEventListener("click", () => {
+
+  closeInfoPopup();
+
+});
+
+infoOkBtn?.addEventListener("click", () => {
+
+  closeInfoPopup();
+
+});
+
+infoPopup?.addEventListener("click", (e) => {
+
+  if (e.target === infoPopup) {
+
+    closeInfoPopup();
+
+  }
+
+});
+
+/* =========================================================
    INIT
 ========================================================= */
 

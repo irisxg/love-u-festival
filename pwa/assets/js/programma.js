@@ -88,7 +88,7 @@ function toEmbedUrl(url) {
 }
 
 /* =========================================================
-   ARTIST POPUP (ZONDER HARTJE)
+   ARTIST POPUP
 ========================================================= */
 
 const modal = document.getElementById("artist-modal");
@@ -110,8 +110,6 @@ function openArtistModal(act) {
     artistTimeStage.textContent = `${act.stage} • ${act.start} – ${act.end}`;
     artistVideo.src = toEmbedUrl(act.video);
 
-    // Geen hartje meer in popup → geen code nodig
-
     modal.classList.remove("hidden");
 }
 
@@ -123,7 +121,7 @@ document.addEventListener("keydown", (e) => {
 });
 
 /* =========================================================
-   PROGRAMMA BOUWEN (HARTJE RECHTS-ONDER)
+   PROGRAMMA BOUWEN
 ========================================================= */
 
 function renderProgram() {
@@ -184,7 +182,6 @@ function renderProgram() {
 
                     <p class="stage-label">${stageLabel}</p>
 
-                    <!-- HARTJE RECHTS-ONDER -->
                     <div class="fav-bottom-wrapper">
                         <button class="fav-small-btn bottom" data-name="${act.name}">
                             <span class="material-icons">
@@ -194,13 +191,11 @@ function renderProgram() {
                     </div>
                 `;
 
-                // HARTJE KLIK
                 card.querySelector(".fav-small-btn").onclick = (e) => {
                     e.stopPropagation();
                     toggleFavorite(act.name);
                 };
 
-                // POPUP KLIK
                 if (hasDetail) {
                     card.onclick = () => openArtistModal(act);
                 }
@@ -231,14 +226,6 @@ document.querySelectorAll(".day-toggle button").forEach(button => {
         document.querySelector(`.${day}`).classList.add("visible");
     });
 });
-// LEGENDA POPUP
-const legendBtn = document.getElementById("legend-btn");
-const legendPopup = document.getElementById("legend-popup");
-const legendClose = document.getElementById("legend-close");
-
-legendBtn.onclick = () => legendPopup.classList.remove("hidden");
-legendClose.onclick = () => legendPopup.classList.add("hidden");
-
 
 /* =========================================================
    INIT

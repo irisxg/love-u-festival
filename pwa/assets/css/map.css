@@ -13,10 +13,16 @@ body{
   width:100%;
   height:100%;
   overflow:hidden;
-  background:#000;
+  background:#555;
   color:#fff;
   font-family:'Plus Jakarta Sans',sans-serif;
 }
+
+/* LIGHT MODE */
+body.light-mode{
+  color:#555;
+}
+
 
 /* =========================
    MAP WRAPPER
@@ -221,9 +227,16 @@ body{
   z-index:1200;
   overflow:hidden;
   border-radius:24px;
+
   background:rgba(30,30,30,.88);
   backdrop-filter:blur(24px);
   border:1px solid rgba(255,255,255,.05);
+}
+
+/* LIGHT MODE */
+body.light-mode #popup-card{
+  background:#fff;
+  border:1px #fff;
 }
 
 .hidden{
@@ -502,6 +515,127 @@ body{
   }
 }
 
+/* =========================
+   INFO POPUP
+========================= */
+
+#info-popup{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.45);
+  backdrop-filter:blur(6px);
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  z-index:99998;
+}
+
+#info-popup.hidden{
+  display:none;
+}
+
+/* WINDOW */
+
+.info-window{
+  width:85%;
+  max-width:380px;
+
+  background:rgba(20,20,20,.96);
+
+  border-radius:22px;
+  padding:22px;
+
+  color:white;
+
+  border:1px solid rgba(255,255,255,.06);
+
+  box-shadow:0 8px 40px rgba(0,0,0,.4);
+
+  animation:infoPopupSlide .28s ease;
+
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+
+/* HEADER TEKST */
+
+.info-header-text{
+  text-align:center;
+}
+
+.info-header-text h3{
+  font-size:22px;
+  font-weight:700;
+  margin-bottom:6px;
+}
+
+.info-header-text p{
+  font-size:14px;
+  color:#bdbdbd;
+  line-height:1.4;
+}
+
+/* SVG WRAPPER (BELANGRIJK FIX) */
+
+.info-content{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+/* IMAGE FIX — DIT MOET img ZIJN */
+.info-content img{
+  width:100%;
+  max-width:320px;
+  height:auto;
+  display:block;
+  filter: drop-shadow(0 10px 30px rgba(0,0,0,.35));
+}
+
+/* BUTTON */
+
+.info-actions{
+  margin-top:6px;
+}
+
+#info-ok-btn{
+  width:100%;
+
+  border:none;
+  background:#F03228;
+
+  color:white;
+
+  padding:14px;
+  border-radius:14px;
+
+  font-size:15px;
+  font-weight:700;
+
+  cursor:pointer;
+
+  transition:.2s ease;
+}
+
+#info-ok-btn:active{
+  transform:scale(.97);
+}
+
+/* ANIMATION */
+
+@keyframes infoPopupSlide{
+  from{
+    opacity:0;
+    transform:translateY(-18px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
 
 /* =========================
    MOBILE FIXES
