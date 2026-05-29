@@ -54,5 +54,5 @@ Scan deze QR-code met je mobiele telefoon om de app direct te openen (zorg ervoo
 
 ![QR Code](pwa/assets/img/qr_code.png)
 
-*   **Lokaal IP-adres:** `http://10.16.33.44/love-u-festival/pwa/`
+*   **Lokaal IP-adres:** `https://u240496.gluwebsite.nl/love-u-festival/pwa/`
 
