@@ -52,7 +52,7 @@ De app biedt een breed scala aan functionaliteiten om de festivalervaring te opt
 
 Scan deze QR-code met je mobiele telefoon om de app direct te openen (zorg ervoor dat je telefoon verbonden is met hetzelfde wifi-netwerk):
 
-![QR Code](pwa/assets/img/qr_code.png)
+![QR Code](pwa/assets/img/loveu_festival_qr.png)
 
-*   **Lokaal IP-adres:** `https://u240496.gluwebsite.nl/love-u-festival/pwa/`
+*   **Live IP-adres:** `https://u240496.gluwebsite.nl/love-u-festival/pwa/`
 

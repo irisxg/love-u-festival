@@ -147,3 +147,51 @@ self.addEventListener('fetch', (event) => {
     })
   );
 });
+
+const log = document.getElementById("log");
+const dot = document.getElementById("dot");
+
+function write(msg) {
+  log.textContent += "\n" + msg;
+}
+
+document.getElementById("start").onclick = () => {
+  write("GPS gestart…");
+
+  if (!navigator.geolocation) {
+    write("❌ Geolocation wordt NIET ondersteund.");
+    return;
+  }
+
+  navigator.geolocation.watchPosition(
+    (pos) => {
+      const { latitude, longitude, accuracy } = pos.coords;
+
+      write(
+        `\n✔ GPS UPDATE:
+Latitude: ${latitude}
+Longitude: ${longitude}
+Accuracy: ${accuracy}m`
+      );
+
+      // Simpele visualisatie
+      const x = (longitude % 1) * 100;
+      const y = (latitude % 1) * 100;
+
+      dot.style.left = x + "%";
+      dot.style.top = y + "%";
+    },
+
+    (err) => {
+      write(`\n❌ GPS ERROR:
+Code: ${err.code}
+Message: ${err.message}`);
+    },
+
+    {
+      enableHighAccuracy: true,
+      maximumAge: 0,
+      timeout: 10000
+    }
+  );
+};
