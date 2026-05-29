@@ -18,8 +18,15 @@ body{
   font-family:'Plus Jakarta Sans',sans-serif;
 }
 
+/* DARK MODE (zoals je JS gebruikt) */
+html.dark body{
+  background:#555;
+  color:#fff;
+}
+
 /* LIGHT MODE */
-body.light-mode{
+body{
+  background:#f5f5f5;
   color:#555;
 }
 
@@ -228,15 +235,15 @@ body.light-mode{
   overflow:hidden;
   border-radius:24px;
 
-  background:rgba(30,30,30,.88);
+  background:#fff; /* light mode default */
+  border:1px solid rgba(0,0,0,.08);
   backdrop-filter:blur(24px);
-  border:1px solid rgba(255,255,255,.05);
 }
 
-/* LIGHT MODE */
-body.light-mode #popup-card{
-  background:#fff;
-  border:1px #fff;
+/* DARK MODE */
+html.dark #popup-card{
+  background:rgba(30,30,30,.88);
+  border:1px solid rgba(255,255,255,.05);
 }
 
 .hidden{
@@ -330,43 +337,71 @@ body.light-mode #popup-card{
   cursor:pointer;
 }
 
-/* Donkere ster-knop */
 .favorite-status-btn{
   width:52px;
   height:52px;
   border:none;
   border-radius:14px;
-  background:rgba(255,255,255,.08);
-  color:white;
+
+  /* LIGHT MODE default */
+  background:rgba(0,0,0,.08);
+  color:#111;
+
   display:flex;
   align-items:center;
   justify-content:center;
   cursor:pointer;
 }
 
+/* ICON */
 #favorite-status-icon{
   font-size:28px;
-  color:white;
+  color:#111;
 }
 
-.favorite-status-btn.active {
-  background: white !important;
+/* =========================
+   DARK MODE (normal state)
+========================= */
+html.dark .favorite-status-btn{
+  background:rgba(255,255,255,.08);
+  color:#fff;
 }
 
-.favorite-status-btn.active .material-symbols-outlined {
-  color: black !important;
+html.dark #favorite-status-icon{
+  color:#fff;
 }
 
+/* =========================
+   ACTIVE - LIGHT MODE
+========================= */
+.favorite-status-btn.active{
+  background:#000 !important;
+}
+
+.favorite-status-btn.active .material-symbols-outlined{
+  color:#fff !important;
+}
+
+/* =========================
+   ACTIVE - DARK MODE
+========================= */
+html.dark .favorite-status-btn.active{
+  background:#fff !important;
+}
+
+html.dark .favorite-status-btn.active .material-symbols-outlined{
+  color:#000 !important;
+}
 .now-label {
   font-weight: 700;
   color: #ff5545;
   margin-right: 6px;
 }
 
-/* =========================
-   FAVORIETEN POPUP
-========================= */
 
+/* =========================
+   DARK MODE (default)
+========================= */
 #favorites-popup{
   position:fixed;
   inset:0;
@@ -382,6 +417,7 @@ body.light-mode #popup-card{
   display:none;
 }
 
+/* WINDOW */
 .favorites-window{
   width:85%;
   max-width:380px;
@@ -392,10 +428,12 @@ body.light-mode #popup-card{
   box-shadow:0 0 25px rgba(0,0,0,0.4);
 }
 
+/* HEADER (FIX: sluitknop rechtsboven goed) */
 .favorites-header{
   display:flex;
   justify-content:space-between;
   align-items:center;
+  margin-bottom:10px;
 }
 
 .favorites-header h3{
@@ -408,8 +446,11 @@ body.light-mode #popup-card{
   border:none;
   color:white;
   font-size:26px;
+  cursor:pointer;
+  line-height:1;
 }
 
+/* LIST */
 .favorites-list{
   margin-top:15px;
   display:flex;
@@ -432,6 +473,39 @@ body.light-mode #popup-card{
 
 .favorite-item .material-symbols-outlined{
   font-size:22px;
+  color:#FFD700;
+}
+
+/* =========================
+   LIGHT MODE
+========================= */
+html:not(.dark) #favorites-popup{
+  background:rgba(0,0,0,0.25);
+}
+
+html:not(.dark) .favorites-window{
+  background:#fff;
+  color:#000;
+}
+
+html:not(.dark) .favorites-header h3{
+  color:#000;
+}
+
+html:not(.dark) #favorites-close{
+  color:#000;
+}
+
+html:not(.dark) .favorite-item{
+  background:#f2f2f2;
+  color:#000;
+}
+
+html:not(.dark) .favorite-item span{
+  color:#000;
+}
+
+html:not(.dark) .favorite-item .material-symbols-outlined{
   color:#FFD700;
 }
 
@@ -538,26 +612,36 @@ body.light-mode #popup-card{
 
 /* WINDOW */
 
-.info-window{
-  width:85%;
-  max-width:380px;
+.info-window {
+  width: 85%;
+  max-width: 380px;
 
-  background:rgba(20,20,20,.96);
+  /* DARK MODE default */
+  background: rgba(20,20,20,.96);
+  color: #fff;
 
-  border-radius:22px;
-  padding:22px;
+  border-radius: 22px;
+  padding: 22px;
 
-  color:white;
+  border: 1px solid rgba(255,255,255,.06);
+  box-shadow: 0 8px 40px rgba(0,0,0,.4);
 
-  border:1px solid rgba(255,255,255,.06);
+  animation: infoPopupSlide .28s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
 
-  box-shadow:0 8px 40px rgba(0,0,0,.4);
+/* LIGHT MODE */
+body.light-mode .info-window {
+  background: #fff;
+  color: #000;
+  border: 1px solid rgba(0,0,0,.08);
+}
 
-  animation:infoPopupSlide .28s ease;
-
-  display:flex;
-  flex-direction:column;
-  gap:16px;
+/* LIGHT MODE TITLE (h3 zwart) */
+body.light-mode .info-window h3 {
+  color: #000;
 }
 
 /* HEADER TEKST */
