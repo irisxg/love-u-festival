@@ -28,7 +28,7 @@ Om veiligheidsredenen ondersteunen browsers alleen PWA-features (zoals Service W
 
 ---
 
-## 📲 Hoe de PWA te installeren
+## Hoe de PWA te installeren
 
 ### Op Mobiel (Android / Chrome)
 1. Open de browser en navigeer naar de app op je lokale netwerk of webadres.
@@ -47,7 +47,7 @@ Om veiligheidsredenen ondersteunen browsers alleen PWA-features (zoals Service W
 
 ---
 
-## 🧪 PWA Inspecteren en Testen (Chrome DevTools)
+## PWA Inspecteren en Testen (Chrome DevTools)
 
 Je kunt de werking van de PWA inspecteren via de Chrome-ontwikkelaarstools:
 
@@ -60,5 +60,5 @@ Je kunt de werking van de PWA inspecteren via de Chrome-ontwikkelaarstools:
 
 ---
 
-## 🔔 Push-meldingen (Voorbereiding)
+## Push-meldingen (Voorbereiding)
 Op de homepage bevindt zich een actieknop om push-notificaties te activeren. Zodra je hierop klikt, wordt de gebruiker voorbereid op notificaties over favoriete artiesten. Voor een echte push-notificatie is een push-server (zoals Firebase of WebPush in PHP) nodig. De interface en toestemmingsvragen zijn in deze PWA alvast volledig voorbereid.
